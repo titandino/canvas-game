@@ -1,17 +1,14 @@
-function Particle(spriteFile, x, y, speed, scale) {
-  GameObject.call(this, spriteFile, x, y, scale);
+Particle.prototype = new GameObject();
 
+function Particle(spriteFile, x, y, speed, scale) {
+  console.log('creating particle', spriteFile);
+  GameObject.call(this, spriteFile, x, y, scale);
   this.speed = speed;
-  this.scale = scale;
   this.transparency = 1;
   this.life = 0;
   this.hasLife = false;
   this.visible = true;
 }
-
-Particle.prototype = new GameObject();
-Particle.prototype.constructor = Particle;
-Particle.prototype.parent = GameObject.prototype;
 
 Particle.prototype.setLife = function(life) {
   this.life = life;
@@ -21,7 +18,7 @@ Particle.prototype.setLife = function(life) {
 Particle.prototype.render = function() {
   if (this.visible) {
     ctx.globalAlpha = this.transparency;
-    ctx.drawImage(this.sprite, this.x - this.sprite.width / 2, this.y - this.sprite.height / 2, this.scale, this.scale);
+    ctx.drawImage(this.sprite, this.x - this.scale / 2, this.y - (this.scale * (this.sprite.height / this.sprite.width)) / 2, this.scale, this.scale * (this.sprite.height / this.sprite.width));
     ctx.globalAlpha = 1;
   }
 };

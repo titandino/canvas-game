@@ -1,6 +1,4 @@
 TestLevel.prototype = new Level();
-TestLevel.prototype.constructor = TestLevel;
-TestLevel.prototype.parent = Level.prototype;
 
 var timer = 1;
 
@@ -13,7 +11,7 @@ function TestLevel() {
   this.update = function(delta) {
     if (timer <= 0) {
       timer = 1;
-      this.addParticleSystem(new ParticleSystem(this.player.x + 50, this.player.y, 2, 'player.png'));
+      this.addParticleSystem(new ParticleSystem(this.player.x + 50, this.player.y, 2, 1, 'player.png'));
     } else {
       timer -= delta;
     }

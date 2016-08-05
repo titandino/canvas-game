@@ -1,13 +1,11 @@
 function GameObject(sprite, x, y, scale) {
-  this.sprite = null;
-
   if (sprite) {
     this.sprite = new Image();
     this.sprite.src = 'sprites/' + sprite;
+  } else {
+    this.sprite = null;
   }
-
   this.scale = scale;
-
   this.x = x;
   this.y = y;
   this.visible = true;
