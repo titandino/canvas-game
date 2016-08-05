@@ -1,6 +1,23 @@
 function Level() {
   this.gameObjects = [];
+  this.particleSystems = [];
 }
+
+Level.prototype.addParticleSystem = function(ps) {
+  this.particleSystems.push(ps);
+  return ps;
+};
+
+Level.prototype.removeParticleSystem = function(ps) {
+  var index = this.particleSystems.indexOf(ps);
+  if (index) {
+    for (var i = 0;i < this.particleSystems[index].gameObjects.length;i++) {
+      if (this.particleSystems[index].gameObjects[i])
+        this.removeGameObject(this.particleSystems[index].gameObjects[i]);
+    }
+    delete this.particleSystems[index];
+  }
+};
 
 Level.prototype.addGameObject = function(object) {
   var freeSpace = false;
@@ -33,6 +50,12 @@ Level.prototype.updateObjects = function(delta) {
       }
     }
   }
+  if (this.particleSystems) {
+    for (var i = 0;i < this.particleSystems.length;i++) {
+      if (this.particleSystems[i])
+        this.particleSystems[i].update(delta);
+    }
+  }
 };
 
 Level.prototype.renderObjects = function(ctx) {
@@ -50,6 +73,12 @@ Level.prototype.unload = function() {
     for (var i = 0;i < this.gameObjects.length;i++) {
       if (this.gameObjects[i])
         this.removeGameObject(this.gameObjects[i]);
+    }
+  }
+  if (this.particleSystems) {
+    for (var i = 0;i < this.particleSystems.length;i++) {
+      if (this.particleSystems[i])
+        this.removeGameObject(this.particleSystems[i]);
     }
   }
 };
