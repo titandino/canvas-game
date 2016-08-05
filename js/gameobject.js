@@ -27,3 +27,39 @@ GameObject.prototype.render = function(context) {
     context.drawImage(this.sprite, this.x - this.sprite.width / 2, this.y - this.sprite.height / 2);
   }
 };
+
+GameObject.prototype.getLeftBound = function() {
+  return this.x - this.sprite.width / 2;
+};
+
+GameObject.prototype.getRightBound = function() {
+  return this.x + this.sprite.width / 2;
+};
+
+GameObject.prototype.getTopBound = function() {
+  return this.y - this.sprite.height / 2;
+};
+
+GameObject.prototype.getBottomBound = function() {
+  return this.y + this.sprite.height / 2;
+};
+
+GameObject.prototype.pointCollide = function(x, y) {
+  if (this.getLeftBound() <= x && x <= this.getRightBound() &&
+      this.getTopBound() <= y && y <= this.getBottomBound()) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+GameObject.prototype.rectCollide = function(otherObject) {
+  if (this.getLeftBound() <= otherObject.getRightBound() &&
+      otherObject.getLeftBound() <= this.getRightBound() &&
+      this.getTopBound() <= otherObject.getBottomBound() &&
+      otherObject.getTopBound() <= this.getBottomBound()) {
+    return true;
+  } else {
+    return false;
+  }
+};
