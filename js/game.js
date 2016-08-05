@@ -6,22 +6,22 @@ if (!canvas) {
 var FPS = 60;
 
 function update(delta) {
-
+  console.log('Delta: ' + delta);
 }
 
 function render() {
-  
+
 }
 
 function main() {
-	var now = Date.now();
-	var delta = now - then;
+  var now = Date.now();
+  var delta = now - then;
 
-	update(delta / 1000);
-	render();
+  update(delta / 1000);
+  render();
 
-	then = now;
+  then = now;
 }
 
 var then = Date.now();
-setInterval(main, 1000/FPS);
+setInterval(main, 1000 / FPS);
