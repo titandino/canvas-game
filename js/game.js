@@ -4,9 +4,6 @@ if (!canvas) {
 }
 
 var ctx = canvas.getContext('2d');
-ctx.webkitImageSmoothingEnabled = false;
-ctx.mozImageSmoothingEnabled = false;
-ctx.imageSmoothingEnabled = false;
 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;

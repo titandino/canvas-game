@@ -1,6 +1,10 @@
 function GameObject(sprite, x, y, scale) {
-  this.sprite = new Image();
-  this.sprite.src = 'sprites/' + sprite;
+  this.sprite = null;
+
+  if (sprite) {
+    this.sprite = new Image();
+    this.sprite.src = 'sprites/' + sprite;
+  }
 
   this.scale = scale;
 

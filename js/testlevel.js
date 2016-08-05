@@ -2,6 +2,8 @@ TestLevel.prototype = new Level();
 TestLevel.prototype.constructor = TestLevel;
 TestLevel.prototype.parent = Level.prototype;
 
+var timer = 1;
+
 function TestLevel() {
   Level.call(this);
 
@@ -9,7 +11,12 @@ function TestLevel() {
   this.player = this.addGameObject(new GameObject('player.png', canvas.width / 2, canvas.height / 2, 50));
 
   this.update = function(delta) {
-    //console.log('updating..');
+    if (timer <= 0) {
+      timer = 1;
+      this.addParticleSystem(new ParticleSystem(this.player.x + 50, this.player.y, 2, 'player.png'));
+    } else {
+      timer -= delta;
+    }
     this.background.position = new Vector2(canvas.width / 2, canvas.height / 2);
   };
 

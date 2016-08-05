@@ -1,26 +1,28 @@
-Particle.prototype.constructor = Particle;
-Particle.prototype.parent = GameObject.prototype;
-
 function Particle(spriteFile, x, y, speed, scale) {
-  Particle.prototype = new GameObject(spriteFile, x, y);
+  GameObject.call(this, spriteFile, x, y, scale);
+
   this.speed = speed;
   this.scale = scale;
   this.transparency = 1;
   this.life = 0;
   this.hasLife = false;
-  this.draw = true;
+  this.visible = true;
 }
+
+Particle.prototype = new GameObject();
+Particle.prototype.constructor = Particle;
+Particle.prototype.parent = GameObject.prototype;
 
 Particle.prototype.setLife = function(life) {
   this.life = life;
   this.hasLife = true;
 };
 
-Particle.prototype.render = function(context) {
-  if (this.draw) {
-    context.globalAlpha = this.transparency;
-    context.drawImage(this.sprite, this.x - this.sprite.width / 2, this.y - this.sprite.height / 2, this.scale, this.scale);
-    context.globalAlpha = 1;
+Particle.prototype.render = function() {
+  if (this.visible) {
+    ctx.globalAlpha = this.transparency;
+    ctx.drawImage(this.sprite, this.x - this.sprite.width / 2, this.y - this.sprite.height / 2, this.scale, this.scale);
+    ctx.globalAlpha = 1;
   }
 };
 

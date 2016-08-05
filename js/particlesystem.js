@@ -33,8 +33,8 @@ ParticleSystem.prototype.update = function(delta) {
 
   if (!this.created) {
     for (var i = 0;i < 30;i++) {
-      var particle = new Particle(this.sprite, this.x, this.y, getRandomArb(10, 100), getRandomArb(3, 10));
-      particle.direction = new Vector(getRandomArb(-50, 50), getRandomArb(-50, 50));
+      var particle = new Particle(this.sprite, this.x, this.y, getRandomFloat(10, 100), getRandomFloat(3, 10));
+      particle.direction = new Vector2(getRandomFloat(-50, 50), getRandomFloat(-50, 50));
       this.gameObjects.push(particle);
       currentLevel.addGameObject(particle);
     }
