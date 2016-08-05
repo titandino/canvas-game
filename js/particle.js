@@ -1,6 +1,8 @@
-function Particle(spriteFile, x, y, speed, scale) {
-  GameObject.call(this, spriteFile, x, y);
+Particle.prototype.constructor = Particle;
+Particle.prototype.parent = GameObject.prototype;
 
+function Particle(spriteFile, x, y, speed, scale) {
+  Particle.prototype = new GameObject(spriteFile, x, y);
   this.speed = speed;
   this.scale = scale;
   this.transparency = 1;

@@ -1,6 +1,8 @@
-function GameObject(sprite, x, y) {
+function GameObject(sprite, x, y, scale) {
   this.sprite = new Image();
-  this.sprite.src = 'sprites/' + spriteFile;
+  this.sprite.src = 'sprites/' + sprite;
+
+  this.scale = scale;
 
   this.x = x;
   this.y = y;
@@ -22,10 +24,9 @@ GameObject.prototype.update = function() {
 
 };
 
-GameObject.prototype.render = function(context) {
-  if (this.draw) {
-    this.renderExtra(context);
-    context.drawImage(this.sprite, this.x - this.sprite.width / 2, this.y - this.sprite.height / 2);
+GameObject.prototype.render = function() {
+  if (this.visible) {
+    ctx.drawImage(this.sprite, this.x - this.scale / 2, this.y - (this.scale * (this.sprite.height / this.sprite.width)) / 2, this.scale, this.scale * (this.sprite.height / this.sprite.width));
   }
 };
 

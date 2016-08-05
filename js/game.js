@@ -2,7 +2,14 @@ var canvas = document.getElementById('game-canvas');
 if (!canvas) {
   console.log('No canvas found.');
 }
+
 var ctx = canvas.getContext('2d');
+ctx.webkitImageSmoothingEnabled = false;
+ctx.mozImageSmoothingEnabled = false;
+ctx.imageSmoothingEnabled = false;
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
 var FPS = 60;
 var currentLevel = new TestLevel();
@@ -10,12 +17,12 @@ var currentLevel = new TestLevel();
 var keysDown = [];
 var mousePos = {x: 0, y: 0};
 
-addEventListener('mousedown', function(e) {
+canvas.addEventListener('mousedown', function(e) {
   mousePos = getLocalMousePos(canvas, e);
   currentLevel.onMouseDown();
 }, false);
 
-addEventListener('mousemove', function(e) {
+canvas.addEventListener('mousemove', function(e) {
   mousePos = getLocalMousePos(canvas, e);
 }, false);
 
@@ -27,11 +34,11 @@ function getLocalMousePos(canvas, e) {
   };
 }
 
-addEventListener('keydown', function (e) {
+canvas.addEventListener('keydown', function (e) {
   keysDown[e.keyCode] = true;
 }, false);
 
-addEventListener('keyup', function (e) {
+canvas.addEventListener('keyup', function (e) {
   keysDown[e.keyCode] = false;
 }, false);
 
@@ -62,6 +69,7 @@ function update(delta) {
 }
 
 function render() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
   currentLevel.renderObjects();
   currentLevel.render();
 }
