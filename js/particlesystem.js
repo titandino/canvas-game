@@ -1,12 +1,20 @@
-function ParticleSystem(x, y, lifetime, type, sprite) {
+function ParticleSystem(sprite, x, y, life, numParticles, minSize, maxSize, minSpeed, maxSpeed, minX, maxX, minY, maxY) {
   this.x = x;
   this.y = y;
-  this.lifetime = lifetime;
-  this.type = type;
+  this.lifetime = life;
   this.sprite = sprite;
   this.gameObjects = [];
   this.created = false;
   this.hasLife = true;
+  this.numParticles = numParticles;
+  this.minSize = minSize;
+  this.maxSize = maxSize;
+  this.minSpeed = minSpeed;
+  this.maxSpeed = maxSpeed;
+  this.minX = minX;
+  this.maxX = maxX;
+  this.minY = minY;
+  this.maxY = maxY;
 
   if (this.lifetime == 0)
     this.hasLife = false;
@@ -32,9 +40,9 @@ ParticleSystem.prototype.update = function(delta) {
   }
 
   if (!this.created) {
-    for (var i = 0;i < 30;i++) {
-      var particle = new Particle(this.sprite, this.x, this.y, getRandomFloat(10, 100), getRandomFloat(3, 10));
-      particle.direction = new Vector2(getRandomFloat(-50, 50), getRandomFloat(-50, 50));
+    for (var i = 0;i < this.numParticles;i++) {
+      var particle = new Particle(this.sprite, this.x, this.y, getRandomFloat(this.minSpeed, this.maxSpeed), getRandomFloat(this.minSize, this.maxSize));
+      particle.direction = new Vector2(getRandomFloat(this.minX, this.maxX), getRandomFloat(this.minY, this.maxY));
       this.gameObjects.push(particle);
       currentLevel.addGameObject(particle);
     }

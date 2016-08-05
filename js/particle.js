@@ -1,7 +1,6 @@
 Particle.prototype = new GameObject();
 
 function Particle(spriteFile, x, y, speed, scale) {
-  console.log('creating particle', spriteFile);
   GameObject.call(this, spriteFile, x, y, scale);
   this.speed = speed;
   this.transparency = 1;
