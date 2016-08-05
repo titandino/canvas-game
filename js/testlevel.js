@@ -1,6 +1,6 @@
 TestLevel.prototype = new Level();
 
-var timer = 1;
+var timer = 0.2;
 
 function TestLevel() {
   Level.call(this);
@@ -10,8 +10,9 @@ function TestLevel() {
 
   this.update = function(delta) {
     if (timer <= 0) {
-      timer = 1;
-      this.addParticleSystem(new ParticleSystem(this.player.x + 50, this.player.y, 2, 1, 'player.png'));
+      timer = 0.2;
+      //sprite, x, y, life, numParticles, minSize, maxSize, minSpeed, maxSpeed, minX, maxX, minY, maxY
+      this.addParticleSystem(new ParticleSystem('particle.png', this.player.x + 50, this.player.y, 2, 50, 10, 20, 3, 20, -50, 50, -50, 50));
     } else {
       timer -= delta;
     }
