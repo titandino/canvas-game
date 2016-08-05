@@ -1,6 +1,7 @@
 function GameObject(sprite, x, y) {
   this.sprite = new Image();
   this.sprite.src = 'sprites/' + spriteFile;
+
   this.x = x;
   this.y = y;
   this.visible = true;
