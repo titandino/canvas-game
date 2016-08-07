@@ -9,6 +9,8 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 var FPS = 60;
+var DEBUG = true;
+
 var currentLevel = new TestLevel();
 
 var keysDown = [];

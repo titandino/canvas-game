@@ -3,6 +3,16 @@ function Level() {
   this.particleSystems = [];
 }
 
+Level.prototype.objectCount = function() {
+  var num = 0;
+  for (var i = 0;i < this.gameObjects.length;i++) {
+    if (this.gameObjects[i]) {
+      num++;
+    }
+  }
+  return num;
+};
+
 Level.prototype.addParticleSystem = function(ps) {
   this.particleSystems.push(ps);
   return ps;
@@ -37,6 +47,7 @@ Level.prototype.addGameObject = function(object) {
 Level.prototype.removeGameObject = function(object) {
   var index = this.gameObjects.indexOf(object);
   if (index) {
+    //this.gameObjects.splice(index, index); //buggy AF
     delete this.gameObjects[index];
   }
 };

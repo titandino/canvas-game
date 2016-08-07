@@ -26,4 +26,11 @@ function TestLevel() {
   this.onMouseMove = function() {
 
   };
+
+  this.render = function() {
+    if (DEBUG) {
+      drawText('Game object buffer len: ' + this.gameObjects.length, 20, 20, '#00FF00');
+      drawText('Game objects: ' + this.objectCount(), 20, 32, '#00FF00');
+    }
+  };
 }
