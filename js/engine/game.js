@@ -33,11 +33,22 @@ function getLocalMousePos(canvas, e) {
   };
 }
 
-canvas.addEventListener('keydown', function (e) {
+window.addEventListener('keydown', function(e) {
   keysDown[e.keyCode] = true;
+  switch(e.keyCode){
+  case 37:
+  case 39:
+  case 38:
+  case 40:
+  case 32:
+    e.preventDefault();
+    break;
+  default:
+    break;
+  }
 }, false);
 
-canvas.addEventListener('keyup', function (e) {
+window.addEventListener('keyup', function(e) {
   keysDown[e.keyCode] = false;
 }, false);
 

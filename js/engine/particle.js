@@ -4,6 +4,7 @@ function Particle(spriteFile, x, y, scale) {
   GameObject.call(this, spriteFile, x, y, scale);
   this.life = 0;
   this.hasLife = false;
+  this.rotation = getRandomFloat(-5, 5);
 }
 
 Particle.prototype.setLife = function(life) {

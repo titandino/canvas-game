@@ -17,16 +17,21 @@ function GameObject(sprite, x, y, scale) {
   this.hasMovement = true;
   this.transparency = 1;
 
-  this.direction = new Vector2(0.0, 0.0);
+  this.acceleration = new Vector2(0, 0);
+  this.velocity = new Vector2(0, 0);
 }
 
 GameObject.prototype.updatePhysics = function(delta) {
   if (this.hasMovement) {
     if (this.gravity) {
-      this.direction.add(this.gravity.multiplyByScalar(this.gravity, delta));
+      this.velocity.add(this.gravity.multiplyByScalar(this.gravity, delta));
     }
-    this.x += this.direction.x * delta;
-    this.y += this.direction.y * delta;
+
+    this.velocity.x += this.acceleration.x * delta;
+    this.velocity.y += this.acceleration.y * delta;
+
+    this.x += this.velocity.x * delta;
+    this.y += this.velocity.y * delta;
   }
   this.rotation += this.angularVelocity * delta;
 };
@@ -65,19 +70,19 @@ GameObject.prototype.getHeight = function()  {
 };
 
 GameObject.prototype.getLeftBound = function() {
-  return this.x - this.sprite.width / 2;
+  return this.x - this.getWidth() / 2;
 };
 
 GameObject.prototype.getRightBound = function() {
-  return this.x + this.sprite.width / 2;
+  return this.x + this.getWidth() / 2;
 };
 
 GameObject.prototype.getTopBound = function() {
-  return this.y - this.sprite.height / 2;
+  return this.y - this.getHeight() / 2;
 };
 
 GameObject.prototype.getBottomBound = function() {
-  return this.y + this.sprite.height / 2;
+  return this.y + this.getHeight() / 2;
 };
 
 GameObject.prototype.pointCollide = function(x, y) {

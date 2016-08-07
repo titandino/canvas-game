@@ -43,9 +43,9 @@ ParticleSystem.prototype.update = function(delta) {
   if (!this.created) {
     for (var i = 0;i < this.numParticles;i++) {
       var particle = new Particle(this.sprite, this.x, this.y, getRandomFloat(this.minSize, this.maxSize));
-      particle.direction = new Vector2(getRandomFloat(this.minX, this.maxX), getRandomFloat(this.minY, this.maxY)).normalize();
+      particle.velocity = new Vector2(getRandomFloat(this.minX, this.maxX), getRandomFloat(this.minY, this.maxY)).normalize();
       var speed = getRandomFloat(this.minSpeed, this.maxSpeed);
-      particle.direction.multiplyByScalar(speed);
+      particle.velocity.multiplyByScalar(speed);
       if (this.gravity)
         particle.gravity = this.gravity;
       this.gameObjects.push(particle);
