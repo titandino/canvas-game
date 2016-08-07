@@ -1,11 +1,9 @@
 Particle.prototype = new GameObject();
 
-function Particle(spriteFile, x, y, speed, scale) {
+function Particle(spriteFile, x, y, scale) {
   GameObject.call(this, spriteFile, x, y, scale);
-  this.speed = speed;
   this.life = 0;
   this.hasLife = false;
-  this.visible = true;
 }
 
 Particle.prototype.setLife = function(life) {
@@ -22,9 +20,6 @@ Particle.prototype.update = function(delta) {
     }
   }
 
-  this.direction.normalize();
-  this.x += this.direction.x * this.speed * delta;
-  this.y += this.direction.y * this.speed * delta;
   if (this.getLeftBound() >= canvas.width)
     currentLevel.removeGameObject(this);
   if (this.getRightBound() <= 0)

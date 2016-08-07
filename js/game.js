@@ -9,9 +9,9 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 var FPS = 60;
-var DEBUG = true;
+var DEBUG = false;
 
-var currentLevel = new TestLevel();
+var currentLevel = new Asteroids();
 
 var keysDown = [];
 var mousePos = {x: 0, y: 0};
