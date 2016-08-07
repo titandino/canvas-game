@@ -3,18 +3,22 @@ Ship.prototype = new GameObject();
 function Ship(sprite, x, y, scale) {
   GameObject.call(this, sprite, x, y, scale);
   this.health = 100;
-  this.shotTimer = 1.0;
+  this.timeBetweenShots = 0.5;
+  this.shotTimer = 0;
 }
 
 Ship.prototype.removeHealth = function(amount) {
   this.health -= amount;
   if (this.health <= 0) {
     this.health = 0;
-    drawText('YOU LOSE.', canvas.width / 2, canvas.height / 2, '#00FF00');
   }
 };
 
 Ship.prototype.update = function(delta) {
+  if (this.shotTimer > 0) {
+    this.shotTimer -= delta;
+  }
+
   for(var i = 0;i < currentLevel.asteroids.length;i++) {
     if (currentLevel.asteroids[i]) {
       if (this.rectCollide(currentLevel.asteroids[i])) {
@@ -33,6 +37,16 @@ Ship.prototype.update = function(delta) {
   this.acceleration.y *= accelDamper;
   this.velocity.x *= velDamper;
   this.velocity.y *= velDamper;
+
+  if (keysDown[32]) {
+    if (this.shotTimer <= 0) {
+      var bulletOffset = new Vector2(Math.sin(this.rotation), -Math.cos(this.rotation)).multiplyByScalar(this.scale);
+      var bullet = new Bullet('#FF0000', this.x + bulletOffset.x, this.y + bulletOffset.y, 5);
+      bullet.velocity = bulletOffset.normalize().multiplyByScalar(500);
+      currentLevel.addGameObject(bullet);
+      this.shotTimer = this.timeBetweenShots;
+    }
+  }
 
   if (keysDown[68]) {
     this.rotation += 3 * delta;

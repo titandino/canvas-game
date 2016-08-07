@@ -9,6 +9,7 @@ function Asteroids() {
   this.asteroids = [];
   this.spawnTime = 9;
   this.timer = 0;
+  this.score = 0;
 }
 
 Asteroids.prototype.update = function(delta) {
