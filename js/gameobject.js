@@ -8,8 +8,11 @@ function GameObject(sprite, x, y, scale) {
   this.scale = scale;
   this.x = x;
   this.y = y;
+  this.rotation = 0;
+  this.angularVelocity = 0;
   this.visible = true;
   this.hasMovement = true;
+  this.transparency = 1;
 
   this.direction = new Vector2(0.0, 0.0);
   this.speed = 0;
@@ -20,6 +23,7 @@ GameObject.prototype.updatePhysics = function(delta) {
     this.x += this.direction.x * this.speed * delta;
     this.y += this.direction.y * this.speed * delta;
   }
+  this.rotation += this.angularVelocity * delta;
 };
 
 GameObject.prototype.update = function() {
@@ -28,7 +32,13 @@ GameObject.prototype.update = function() {
 
 GameObject.prototype.render = function() {
   if (this.visible) {
-    ctx.drawImage(this.sprite, this.x - this.scale / 2, this.y - (this.scale * (this.sprite.height / this.sprite.width)) / 2, this.scale, this.scale * (this.sprite.height / this.sprite.width));
+    ctx.globalAlpha = this.transparency;
+    ctx.translate(this.x, this.y);
+    ctx.rotate(this.rotation);
+    ctx.drawImage(this.sprite, -(this.scale / 2), -((this.scale * (this.sprite.height / this.sprite.width)) / 2), this.scale, this.scale * (this.sprite.height / this.sprite.width));
+    ctx.rotate(-this.rotation);
+    ctx.translate(-this.x, -this.y);
+    ctx.globalAlpha = 1;
   }
 };
 
