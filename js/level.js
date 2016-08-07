@@ -47,7 +47,6 @@ Level.prototype.addGameObject = function(object) {
 Level.prototype.removeGameObject = function(object) {
   var index = this.gameObjects.indexOf(object);
   if (index) {
-    //this.gameObjects.splice(index, index); //buggy AF
     delete this.gameObjects[index];
   }
 };
@@ -58,6 +57,8 @@ Level.prototype.updateObjects = function(delta) {
       if (this.gameObjects[i]) {
         this.gameObjects[i].updatePhysics(delta);
         this.gameObjects[i].update(delta);
+      } else {
+        this.gameObjects.splice(i, 1);
       }
     }
   }
