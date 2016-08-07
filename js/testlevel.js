@@ -20,7 +20,7 @@ function TestLevel() {
   };
 
   this.onMouseDown = function() {
-
+    this.addParticleSystem(new ParticleSystem('particle.png', mousePos.x, mousePos.y, 2, 100, 20, 30, 30, 100, -50, 50, -50, 50));
   };
 
   this.onMouseMove = function() {

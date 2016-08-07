@@ -1,6 +1,7 @@
 function Vector2(x, y) {
   this.x = x;
   this.y = y;
+  this.normalize();
 }
 
 Vector2.prototype.normalize = function() {
