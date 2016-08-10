@@ -65,7 +65,7 @@ function getRandomFloat(min, max) {
 }
 
 function getRandom(min, max) {
-  return Math.floor(Math.random() * max) + min;
+  return Math.floor(Math.random() * (max - min) + min);
 }
 
 function switchLevel(newLevel) {
