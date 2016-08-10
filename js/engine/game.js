@@ -11,7 +11,7 @@ canvas.height = window.innerHeight;
 var FPS = 60;
 var DEBUG = false;
 
-var currentLevel = new Asteroids();
+var currentLevel = new StartMenu();
 
 var keysDown = [];
 var mousePos = {x: 0, y: 0};

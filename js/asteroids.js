@@ -4,7 +4,7 @@ function Asteroids() {
   Level.call(this);
 
   this.background = this.addGameObject(new GameObject('#000000', canvas.width / 2, canvas.height / 2, canvas.width));
-  this.player = this.addGameObject(new Ship('ship.png', canvas.width / 2, canvas.height / 2, 20, this));
+  this.player = this.addGameObject(new Ship('ship.png', canvas.width / 2, canvas.height / 2, 20));
 
   this.asteroids = [];
   this.spawnTime = 9;
@@ -58,4 +58,56 @@ Asteroids.prototype.render = function() {
     drawText('Game object buffer len: ' + this.gameObjects.length, 20, 44, '#00FF00');
     drawText('Game objects: ' + this.objectCount(), 20, 56, '#00FF00');
   }
+};
+
+StartMenu.prototype = new Level();
+
+function StartMenu() {
+  Level.call(this);
+
+  this.timer = 1.0;
+
+  this.background = this.addGameObject(new GameObject('#000000', canvas.width / 2, canvas.height / 2, canvas.width));
+  this.logo = this.addGameObject(new GameObject('logo.png', canvas.width / 2, canvas.height / 2 - 100, 400));
+  this.playButton = this.addGameObject(new GameObject('play.png', canvas.width / 2 - 200, canvas.height / 2, 100));
+  this.controlsButton = this.addGameObject(new GameObject('controls.png', canvas.width / 2 + 200, canvas.height / 2, 100));
+}
+
+StartMenu.prototype.update = function(delta) {
+  if (this.timer > 0)
+    this.timer -= delta;
+  if (this.timer <= 0) {
+    this.spawnAsteroid();
+    this.timer = 1.0;
+  }
+};
+
+StartMenu.prototype.onMouseDown = function() {
+  if (this.playButton.pointCollide(mousePos.x, mousePos.y)) {
+    switchLevel(new Asteroids());
+  }
+};
+
+StartMenu.prototype.spawnAsteroid = function() {
+  var dir = getRandom(0, 5);
+  var asteroid = new Particle('asteroid.png', 0, 0, getRandom(25, 75));
+  if (dir <= 1) {
+    asteroid.x = 0;
+    asteroid.y = 0;
+    asteroid.velocity = new Vector2(getRandomFloat(10, 50), getRandomFloat(10, 50));
+  } else if (dir === 2) {
+    asteroid.x = 0;
+    asteroid.y = canvas.height;
+    asteroid.velocity = new Vector2(getRandomFloat(10, 50), getRandomFloat(-10, -50));
+  } else if (dir === 3) {
+    asteroid.x = canvas.width;
+    asteroid.y = canvas.height;
+    asteroid.velocity = new Vector2(getRandomFloat(-10, -50), getRandomFloat(-10, -50));
+  } else {
+    asteroid.x = canvas.width;
+    asteroid.y = 0;
+    asteroid.velocity = new Vector2(getRandomFloat(-10, -50), getRandomFloat(10, 50));
+  }
+  asteroid.angularVelocity = getRandomFloat(-2, 2);
+  this.addGameObject(asteroid);
 };
