@@ -5,6 +5,8 @@ function Ship(sprite, x, y, scale) {
   this.health = 100;
   this.timeBetweenShots = 0.5;
   this.shotTimer = 0;
+  this.turnSpeed = 3;
+  this.speed = 80;
 }
 
 Ship.prototype.removeHealth = function(amount) {
@@ -49,26 +51,26 @@ Ship.prototype.update = function(delta) {
   }
 
   if (keysDown[68]) {
-    this.rotation += 3 * delta;
+    this.rotation += this.turnSpeed * delta;
   } else if (keysDown[65]) {
-    this.rotation -= 3 * delta;
+    this.rotation -= this.turnSpeed * delta;
   }
 
   if (keysDown[87]) {
     var fireOffset = new Vector2(-Math.sin(this.rotation), Math.cos(this.rotation)).multiplyByScalar(this.scale);
-    this.acceleration = new Vector2(Math.sin(this.rotation), -Math.cos(this.rotation)).multiplyByScalar(50);
+    this.acceleration = new Vector2(Math.sin(this.rotation), -Math.cos(this.rotation)).multiplyByScalar(this.speed);
     currentLevel.addParticleSystem(new ParticleSystem('fire.png', this.x + fireOffset.x, this.y + fireOffset.y, 2, 2, 5, 15, 40, 80,
     (fireOffset.x * 10) - 50, (fireOffset.x * 10) + 50, (fireOffset.y * 10) - 50, (fireOffset.y * 10) + 50));
   } else if (keysDown[83]) {
-    this.acceleration = new Vector2(-Math.sin(this.rotation), Math.cos(this.rotation)).multiplyByScalar(50);
+    this.acceleration = new Vector2(-Math.sin(this.rotation), Math.cos(this.rotation)).multiplyByScalar(this.speed);
   }
 
-  if (this.getRightBound() >= canvas.width)
-    this.x = canvas.width - this.sprite.width / 2;
-  if (this.getLeftBound() <= 0)
-    this.x = this.sprite.width / 2;
-  if (this.getBottomBound() >= canvas.height)
-    this.y = canvas.height - this.sprite.height / 2;
-  if (this.getTopBound() <= 0)
-    this.y = this.sprite.height / 2;
+  if (this.getLeftBound() >= canvas.width)
+    this.x = 1;
+  if (this.getRightBound() <= 0)
+    this.x = canvas.width - 1;
+  if (this.getTopBound() >= canvas.height)
+    this.y = 1;
+  if (this.getBottomBound() <= 0)
+    this.y = canvas.height - 1;
 };
