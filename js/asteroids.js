@@ -22,9 +22,14 @@ Asteroids.prototype.update = function(delta) {
 };
 
 Asteroids.prototype.spawnWave = function() {
+  this.spawnPowerUp();
   for(var i = 0;i < 5;i++) {
     this.spawnAsteroid();
   }
+};
+
+Asteroids.prototype.spawnPowerUp = function() {
+  this.addGameObject(new PowerUp(getRandom(0, this.player.powerups.length), getRandom(50, canvas.width), getRandom(50, canvas.height)));
 };
 
 Asteroids.prototype.spawnAsteroid = function() {
@@ -57,6 +62,38 @@ Asteroids.prototype.render = function() {
   if (DEBUG) {
     drawText('Game object buffer len: ' + this.gameObjects.length, 20, 44, '#00FF00');
     drawText('Game objects: ' + this.objectCount(), 20, 56, '#00FF00');
+  }
+};
+
+PowerUp.prototype = new GameObject();
+
+var POWERUP_TRISHOT = 0;
+var POWERUP_SHOT_SPEED = 1;
+var POWERUP_INVULNERABILITY = 2;
+
+function PowerUp(type, x, y) {
+  GameObject.call(this, this.getSpriteByType(type), x, y, 30);
+  this.type = type;
+}
+
+PowerUp.prototype.update = function() {
+  if (currentLevel.player.rectCollide(this)) {
+    currentLevel.addParticleSystem(new ParticleSystem('#00FFFF', this.x, this.y, 2, 25, 5, 15, 40, 80, -50, 50, -50, 50));
+    currentLevel.player.powerups[this.type] = 15;
+    currentLevel.removeGameObject(this);
+  }
+};
+
+PowerUp.prototype.getSpriteByType = function(type) {
+  switch(type) {
+  case 0:
+    return 'trishot.png';
+  case 1:
+    return 'shotspeed.png';
+  case 2:
+    return 'invulnerability.png';
+  default:
+    return '#00FF00';
   }
 };
 
