@@ -11,7 +11,7 @@ canvas.height = window.innerHeight;
 var FPS = 60;
 var DEBUG = false;
 
-var currentLevel = new Asteroids();
+var currentLevel = new StartMenu();
 
 var keysDown = [];
 var mousePos = {x: 0, y: 0};
@@ -65,7 +65,7 @@ function getRandomFloat(min, max) {
 }
 
 function getRandom(min, max) {
-  return Math.floor(Math.random() * max) + min;
+  return Math.floor(Math.random() * (max - min) + min);
 }
 
 function switchLevel(newLevel) {
