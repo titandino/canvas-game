@@ -1,7 +1,28 @@
+var LOADED_IMAGES = [];
+
+function imageLoaded(sprite) {
+  for (var i = 0;i < LOADED_IMAGES.length;i++) {
+    if (LOADED_IMAGES[i].src === sprite)
+      return i;
+  }
+  return -1;
+};
+
+function keepImage(image) {
+  if (!imageLoaded(image.src))
+    LOADED_IMAGES.push(image);
+}
+
 function GameObject(sprite, x, y, scale) {
   if (sprite && !sprite.startsWith('#')) {
-    this.sprite = new Image();
-    this.sprite.src = 'sprites/' + sprite;
+    if (imageLoaded(sprite) === -1) {
+      var image = new Image();
+      image.onload = keepImage(image);
+      image.src = 'sprites/' + sprite;
+      this.sprite = image;
+    } else {
+      this.sprite = LOADED_IMAGES[imageLoaded(sprite)];
+    }
     this.hasSprite = true;
   } else {
     this.sprite = sprite;
