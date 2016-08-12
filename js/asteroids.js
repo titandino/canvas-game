@@ -3,7 +3,7 @@ Asteroids.prototype = new Level();
 function Asteroids() {
   Level.call(this);
 
-  this.background = this.addGameObject(new GameObject('#000000', canvas.width / 2, canvas.height / 2, canvas.width));
+  this.background = this.addGameObject(new GameObject('#000000', canvas.width / 2, canvas.height / 2, canvas.height > canvas.width ? canvas.height : canvas.width));
   this.player = this.addGameObject(new Ship('ship.png', canvas.width / 2, canvas.height / 2, 20));
 
   this.asteroids = [];
@@ -104,7 +104,7 @@ function StartMenu() {
 
   this.timer = 1.0;
 
-  this.background = this.addGameObject(new GameObject('#000000', canvas.width / 2, canvas.height / 2, canvas.width));
+  this.background = this.addGameObject(new GameObject('#000000', canvas.width / 2, canvas.height / 2, canvas.height > canvas.width ? canvas.height : canvas.width));
   this.logo = this.addGameObject(new GameObject('logo.png', canvas.width / 2, canvas.height / 2 - 100, 400));
   this.playButton = this.addGameObject(new GameObject('play.png', canvas.width / 2 - 200, canvas.height / 2, 100));
   this.controlsButton = this.addGameObject(new GameObject('controls.png', canvas.width / 2 + 200, canvas.height / 2, 100));
@@ -122,6 +122,8 @@ StartMenu.prototype.update = function(delta) {
 StartMenu.prototype.onMouseDown = function() {
   if (this.playButton.pointCollide(mousePos.x, mousePos.y)) {
     switchLevel(new Asteroids());
+  } else if (this.controlsButton.pointCollide(mousePos.x, mousePos.y)) {
+    switchLevel(new ControlsMenu());
   }
 };
 
@@ -147,4 +149,21 @@ StartMenu.prototype.spawnAsteroid = function() {
   }
   asteroid.angularVelocity = getRandomFloat(-2, 2);
   this.addGameObject(asteroid);
+};
+
+ControlsMenu.prototype = new Level();
+
+function ControlsMenu() {
+  Level.call(this);
+
+  this.background = this.addGameObject(new GameObject('#000000', canvas.width / 2, canvas.height / 2, canvas.height > canvas.width ? canvas.height : canvas.width));
+  this.controls = this.addGameObject(new GameObject('controlsbg.png', canvas.width / 2, canvas.height / 2, canvas.height < canvas.width ? canvas.height : canvas.width));
+  this.backButton = this.addGameObject(new GameObject('back.png', canvas.width / 2 + 200, canvas.height / 2 + 200, 100));
+}
+
+
+ControlsMenu.prototype.onMouseDown = function() {
+  if (this.backButton.pointCollide(mousePos.x, mousePos.y)) {
+    switchLevel(new StartMenu());
+  }
 };
