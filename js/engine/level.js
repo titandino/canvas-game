@@ -52,6 +52,7 @@ Level.prototype.removeGameObject = function(object) {
 };
 
 Level.prototype.updateObjects = function(delta) {
+  this.gameObjects.sort(function(a,b) { return a.zIndex - b.zIndex });
   if (this.gameObjects) {
     for (var i = 0;i < this.gameObjects.length;i++) {
       if (this.gameObjects[i]) {
@@ -70,11 +71,12 @@ Level.prototype.updateObjects = function(delta) {
   }
 };
 
-Level.prototype.renderObjects = function(ctx) {
+Level.prototype.renderObjects = function() {
   if (this.gameObjects) {
     for (var i = 0;i < this.gameObjects.length;i++) {
       if (this.gameObjects[i]) {
-        this.gameObjects[i].render(ctx);
+        this.gameObjects[i].render();
+        this.gameObjects[i].renderExtra();
       }
     }
   }

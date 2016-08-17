@@ -51,6 +51,23 @@ Ship.prototype.update = function(delta) {
     }
   }
 
+  this.shield.x = this.x;
+  this.shield.y = this.y;
+  if (this.powerups[POWERUP_INVULNERABILITY] > 5) {
+    this.shield.visible = true;
+    this.shield.transparency = 0.4;
+  } else if (this.powerups[POWERUP_INVULNERABILITY] > 0) {
+    this.shield.visible = true;
+    if (this.shield.transparency > 0.4) {
+      this.shield.incrementing = false;
+    } else if (this.shield.transparency <= 0.1) {
+      this.shield.incrementing = true;
+    }
+    this.shield.transparency += this.shield.incrementing ? delta / 2 : -(delta / 2);
+  } else {
+    this.shield.visible = false;
+  }
+
   for(var i = 0;i < currentLevel.asteroids.length;i++) {
     if (currentLevel.asteroids[i]) {
       if (this.rectCollide(currentLevel.asteroids[i])) {
