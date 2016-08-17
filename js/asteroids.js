@@ -3,8 +3,10 @@ Asteroids.prototype = new Level();
 function Asteroids() {
   Level.call(this);
 
-  this.background = this.addGameObject(new GameObject('#000000', canvas.width / 2, canvas.height / 2, canvas.height > canvas.width ? canvas.height : canvas.width));
+  this.background = this.addGameObject(new GameObject('#000000', canvas.width / 2, canvas.height / 2, canvas.height > canvas.width ? canvas.height : canvas.width, -1));
   this.player = this.addGameObject(new Ship('ship.png', canvas.width / 2, canvas.height / 2, 20));
+  this.player.shield = this.addGameObject(new GameObject('#00FFFF', 0, 0, 50, 1));
+  this.player.shield.visible = false;
 
   this.asteroids = [];
   this.spawnTime = 9;
@@ -104,7 +106,7 @@ function StartMenu() {
 
   this.timer = 1.0;
 
-  this.background = this.addGameObject(new GameObject('#000000', canvas.width / 2, canvas.height / 2, canvas.height > canvas.width ? canvas.height : canvas.width));
+  this.background = this.addGameObject(new GameObject('#000000', canvas.width / 2, canvas.height / 2, canvas.height > canvas.width ? canvas.height : canvas.width, -1));
   this.logo = this.addGameObject(new GameObject('logo.png', canvas.width / 2, canvas.height / 2 - 100, 400));
   this.playButton = this.addGameObject(new GameObject('play.png', canvas.width / 2 - 200, canvas.height / 2, 100));
   this.controlsButton = this.addGameObject(new GameObject('controls.png', canvas.width / 2 + 200, canvas.height / 2, 100));
@@ -156,7 +158,7 @@ ControlsMenu.prototype = new Level();
 function ControlsMenu() {
   Level.call(this);
 
-  this.background = this.addGameObject(new GameObject('#000000', canvas.width / 2, canvas.height / 2, canvas.height > canvas.width ? canvas.height : canvas.width));
+  this.background = this.addGameObject(new GameObject('#000000', canvas.width / 2, canvas.height / 2, canvas.height > canvas.width ? canvas.height : canvas.width, -1));
   this.controls = this.addGameObject(new GameObject('controlsbg.png', canvas.width / 2, canvas.height / 2, canvas.height < canvas.width ? canvas.height : canvas.width));
   this.backButton = this.addGameObject(new GameObject('back.png', canvas.width / 2 + 200, canvas.height / 2 + 200, 100));
 }
@@ -174,7 +176,7 @@ function LossMenu(score) {
   Level.call(this);
 
   this.score = score;
-  this.background = this.addGameObject(new GameObject('#000000', canvas.width / 2, canvas.height / 2, canvas.height > canvas.width ? canvas.height : canvas.width));
+  this.background = this.addGameObject(new GameObject('#000000', canvas.width / 2, canvas.height / 2, canvas.height > canvas.width ? canvas.height : canvas.width, -1));
   this.backButton = this.addGameObject(new GameObject('back.png', canvas.width / 2 + 200, canvas.height / 2 + 200, 100));
 }
 

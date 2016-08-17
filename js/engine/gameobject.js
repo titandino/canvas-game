@@ -13,7 +13,7 @@ function keepImage(image) {
     LOADED_IMAGES.push(image);
 }
 
-function GameObject(sprite, x, y, scale) {
+function GameObject(sprite, x, y, scale, zIndex) {
   if (sprite && !sprite.startsWith('#')) {
     if (imageLoaded(sprite) === -1) {
       var image = new Image();
@@ -37,6 +37,7 @@ function GameObject(sprite, x, y, scale) {
   this.visible = true;
   this.hasMovement = true;
   this.transparency = 1;
+  this.zIndex = zIndex || 0;
 
   this.acceleration = new Vector2(0, 0);
   this.velocity = new Vector2(0, 0);
@@ -76,6 +77,10 @@ GameObject.prototype.render = function() {
     ctx.translate(-this.x, -this.y);
     ctx.globalAlpha = 1;
   }
+};
+
+GameObject.prototype.renderExtra = function() {
+
 };
 
 GameObject.prototype.getWidth = function() {
