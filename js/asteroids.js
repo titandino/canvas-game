@@ -167,3 +167,24 @@ ControlsMenu.prototype.onMouseDown = function() {
     switchLevel(new StartMenu());
   }
 };
+
+LossMenu.prototype = new Level();
+
+function LossMenu(score) {
+  Level.call(this);
+
+  this.score = score;
+  this.background = this.addGameObject(new GameObject('#000000', canvas.width / 2, canvas.height / 2, canvas.height > canvas.width ? canvas.height : canvas.width));
+  this.backButton = this.addGameObject(new GameObject('back.png', canvas.width / 2 + 200, canvas.height / 2 + 200, 100));
+}
+
+LossMenu.prototype.render = function() {
+  drawText('YOUR SHIP WAS DESTROYED', canvas.width / 2, canvas.height / 2 - 200, '#00FF00', '50px', 'Helvetica', 'center');
+  drawText('FINAL SCORE: ' + this.score, canvas.width / 2, canvas.height / 2, '#00FF00', '50px', 'Helvetica', 'center');
+};
+
+LossMenu.prototype.onMouseDown = function() {
+  if (this.backButton.pointCollide(mousePos.x, mousePos.y)) {
+    switchLevel(new StartMenu());
+  }
+};

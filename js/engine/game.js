@@ -52,10 +52,10 @@ window.addEventListener('keyup', function(e) {
   keysDown[e.keyCode] = false;
 }, false);
 
-function drawText(text, x, y, color) {
+function drawText(text, x, y, color, size, font, align) {
   ctx.fillStyle = color;
-  ctx.font = '12px Helvetica';
-  ctx.textAlign = 'left';
+  ctx.font = (size || '12px') + ' ' + (font || 'Helvetica');
+  ctx.textAlign = align || 'left';
   ctx.textBaseline = 'top';
   ctx.fillText(text, x, y);
 }

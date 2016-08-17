@@ -14,7 +14,8 @@ Ship.prototype.removeHealth = function(amount) {
   if (this.powerups[POWERUP_INVULNERABILITY] <= 0)
     this.health -= amount;
   if (this.health <= 0) {
-    this.health = 0;
+    switchLevel(new LossMenu(currentLevel.score));
+    this.health = -1;
   }
 };
 
