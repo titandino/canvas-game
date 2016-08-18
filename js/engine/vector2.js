@@ -44,6 +44,10 @@ Vector2.prototype.multiplyByScalar = function(scalar) {
   return this;
 };
 
+Vector2.prototype.getRotatedBy = function(rad) {
+  return new Vector2(this.x * Math.cos(rad) - this.y * Math.sin(rad), this.x * Math.sin(rad) + this.y * Math.cos(rad));
+};
+
 Vector2.prototype.reflect = function (direction) {
   direction.multiplyByScalar(2 * (this.dot(direction)));
   this.subtract(direction);

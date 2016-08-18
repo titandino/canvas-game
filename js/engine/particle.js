@@ -1,4 +1,4 @@
-Particle.prototype = new GameObject();
+Particle.prototype = Object.create(GameObject.prototype);
 
 function Particle(spriteFile, x, y, scale) {
   GameObject.call(this, spriteFile, x, y, scale);
@@ -20,7 +20,6 @@ Particle.prototype.update = function(delta) {
       this.life -= delta;
     }
   }
-
   if (this.getLeftBound() >= canvas.width)
     currentLevel.removeGameObject(this);
   if (this.getRightBound() <= 0)
