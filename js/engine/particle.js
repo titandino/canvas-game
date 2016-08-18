@@ -20,7 +20,6 @@ Particle.prototype.update = function(delta) {
       this.life -= delta;
     }
   }
-
   if (this.getLeftBound() >= canvas.width)
     currentLevel.removeGameObject(this);
   if (this.getRightBound() <= 0)

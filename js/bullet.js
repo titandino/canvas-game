@@ -8,11 +8,8 @@ Bullet.prototype.update = function() {
   for(var i = 0;i < currentLevel.asteroids.length;i++) {
     if (currentLevel.asteroids[i]) {
       if (this.rectCollide(currentLevel.asteroids[i])) {
-        currentLevel.score += 100 - currentLevel.asteroids[i].scale;
-        currentLevel.addParticleSystem(new ParticleSystem('asteroid.png', currentLevel.asteroids[i].x, currentLevel.asteroids[i].y, 2, 50, 5, 15, 40, 80, -50, 50, -50, 50));
-        currentLevel.removeGameObject(currentLevel.asteroids[i]);
-        delete currentLevel.asteroids[i];
         currentLevel.removeGameObject(this);
+        currentLevel.asteroids[i].processHit(i);
       }
     }
   }

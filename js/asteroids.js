@@ -36,7 +36,7 @@ Asteroids.prototype.spawnPowerUp = function() {
 
 Asteroids.prototype.spawnAsteroid = function() {
   var dir = getRandom(0, 5);
-  var asteroid = new Particle('asteroid.png', 0, 0, getRandom(25, 75));
+  var asteroid = new Asteroid(0, 0, getRandom(25, 75));
   if (dir <= 1) {
     asteroid.x = 0;
     asteroid.y = 0;

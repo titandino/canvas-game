@@ -72,7 +72,7 @@ Ship.prototype.update = function(delta) {
     if (currentLevel.asteroids[i]) {
       if (this.rectCollide(currentLevel.asteroids[i])) {
         this.removeHealth(getRandom(5, 9));
-        currentLevel.addParticleSystem(new ParticleSystem('asteroid.png', currentLevel.asteroids[i].x, currentLevel.asteroids[i].y, 2, 75, 8, 25, 40, 80, -50, 50, -50, 50));
+        currentLevel.addParticleSystem(new ParticleSystem('asteroid.png', currentLevel.asteroids[i].x, currentLevel.asteroids[i].y, 2, 25, 5, 15, 40, 80, -50, 50, -50, 50));
         currentLevel.removeGameObject(currentLevel.asteroids[i]);
         delete currentLevel.asteroids[i];
       }

@@ -38,6 +38,7 @@ function GameObject(sprite, x, y, scale, zIndex) {
   this.hasMovement = true;
   this.transparency = 1;
   this.zIndex = zIndex || 0;
+  this.deleteOnViewportExit = false;
 
   this.acceleration = new Vector2(0, 0);
   this.velocity = new Vector2(0, 0);
@@ -56,6 +57,16 @@ GameObject.prototype.updatePhysics = function(delta) {
     this.y += this.velocity.y * delta;
   }
   this.rotation += this.angularVelocity * delta;
+  if (this.deleteOnViewportExit) {
+    if (this.getLeftBound() >= canvas.width)
+      currentLevel.removeGameObject(this);
+    if (this.getRightBound() <= 0)
+      currentLevel.removeGameObject(this);
+    if (this.getTopBound() >= canvas.height)
+      currentLevel.removeGameObject(this);
+    if (this.getBottomBound() <= 0)
+      currentLevel.removeGameObject(this);
+  }
 };
 
 GameObject.prototype.update = function() {
