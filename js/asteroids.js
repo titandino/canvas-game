@@ -1,4 +1,4 @@
-Asteroids.prototype = new Level();
+Asteroids.prototype = Object.create(Level.prototype);
 
 function Asteroids() {
   Level.call(this);
@@ -99,7 +99,7 @@ PowerUp.prototype.getSpriteByType = function(type) {
   }
 };
 
-StartMenu.prototype = new Level();
+StartMenu.prototype = Object.create(Level.prototype);
 
 function StartMenu() {
   Level.call(this);
@@ -153,7 +153,7 @@ StartMenu.prototype.spawnAsteroid = function() {
   this.addGameObject(asteroid);
 };
 
-ControlsMenu.prototype = new Level();
+ControlsMenu.prototype = Object.create(Level.prototype);
 
 function ControlsMenu() {
   Level.call(this);
@@ -170,7 +170,7 @@ ControlsMenu.prototype.onMouseDown = function() {
   }
 };
 
-LossMenu.prototype = new Level();
+LossMenu.prototype = Object.create(Level.prototype);
 
 function LossMenu(score) {
   Level.call(this);

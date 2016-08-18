@@ -1,4 +1,4 @@
-Particle.prototype = new GameObject();
+Particle.prototype = Object.create(GameObject.prototype);
 
 function Particle(spriteFile, x, y, scale) {
   GameObject.call(this, spriteFile, x, y, scale);

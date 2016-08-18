@@ -1,4 +1,4 @@
-Bullet.prototype = new GameObject();
+Bullet.prototype = Object.create(GameObject.prototype);
 
 function Bullet(sprite, x, y, scale) {
   GameObject.call(this, sprite, x, y, scale);
@@ -9,7 +9,9 @@ Bullet.prototype.update = function() {
     if (currentLevel.asteroids[i]) {
       if (this.rectCollide(currentLevel.asteroids[i])) {
         currentLevel.removeGameObject(this);
+        currentLevel.removeGameObject(currentLevel.asteroids[i]);
         currentLevel.asteroids[i].processHit(i);
+        delete currentLevel.asteroids[i];
       }
     }
   }

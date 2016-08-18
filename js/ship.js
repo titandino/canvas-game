@@ -1,4 +1,4 @@
-Ship.prototype = new GameObject();
+Ship.prototype = Object.create(GameObject.prototype);
 
 function Ship(sprite, x, y, scale) {
   GameObject.call(this, sprite, x, y, scale);
