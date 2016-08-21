@@ -97,6 +97,10 @@ Level.prototype.unload = function() {
   }
 };
 
+Level.prototype.init = function() {
+
+};
+
 Level.prototype.update = function() {
 
 };

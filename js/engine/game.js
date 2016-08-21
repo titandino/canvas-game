@@ -12,6 +12,7 @@ var FPS = 60;
 var DEBUG = false;
 
 var currentLevel = new StartMenu();
+currentLevel.init();
 
 var keysDown = [];
 var mousePos = {x: 0, y: 0};
@@ -71,6 +72,7 @@ function getRandom(min, max) {
 function switchLevel(newLevel) {
   currentLevel.unload();
   currentLevel = newLevel;
+  currentLevel.init();
 }
 
 function update(delta) {
