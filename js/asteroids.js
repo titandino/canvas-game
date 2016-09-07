@@ -84,7 +84,7 @@ PowerUp.prototype.update = function() {
   if (currentLevel.player.rectCollide(this)) {
     currentLevel.addParticleSystem(new ParticleSystem('#00FFFF', this.x, this.y, 2, 25, 5, 15, 40, 80, -50, 50, -50, 50));
     currentLevel.player.powerups[this.type] = 15;
-    currentLevel.removeGameObject(this);
+    this.markedForDeletion = true;
   }
 };
 

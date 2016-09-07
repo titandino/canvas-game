@@ -5,6 +5,7 @@ function Particle(spriteFile, x, y, scale) {
   this.life = 0;
   this.hasLife = false;
   this.rotation = getRandomFloat(-5, 5);
+  this.deleteOnViewportExit = true;
 }
 
 Particle.prototype.setLife = function(life) {
@@ -15,17 +16,9 @@ Particle.prototype.setLife = function(life) {
 Particle.prototype.update = function(delta) {
   if (this.hasLife) {
     if (this.life <= 0) {
-      currentLevel.removeGameObject(this);
+      this.markedForDeletion = true;
     } else {
       this.life -= delta;
     }
   }
-  if (this.getLeftBound() >= canvas.width)
-    currentLevel.removeGameObject(this);
-  if (this.getRightBound() <= 0)
-    currentLevel.removeGameObject(this);
-  if (this.getTopBound() >= canvas.height)
-    currentLevel.removeGameObject(this);
-  if (this.getBottomBound() <= 0)
-    currentLevel.removeGameObject(this);
 };

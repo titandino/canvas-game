@@ -8,6 +8,7 @@ function Ship(sprite, x, y, scale) {
   this.turnSpeed = 3;
   this.speed = 80;
   this.powerups = [ 0, 0, 0 ];
+  this.wrapViewport = true;
 }
 
 Ship.prototype.removeHealth = function(amount) {
@@ -73,7 +74,7 @@ Ship.prototype.update = function(delta) {
       if (this.rectCollide(currentLevel.asteroids[i])) {
         this.removeHealth(getRandom(5, 9));
         currentLevel.addParticleSystem(new ParticleSystem('asteroid.png', currentLevel.asteroids[i].x, currentLevel.asteroids[i].y, 2, 25, 5, 15, 40, 80, -50, 50, -50, 50));
-        currentLevel.removeGameObject(currentLevel.asteroids[i]);
+        currentLevel.asteroids[i].markedForDeletion = true;
         delete currentLevel.asteroids[i];
       }
     }
@@ -107,13 +108,4 @@ Ship.prototype.update = function(delta) {
   } else if (keysDown[83]) {
     this.acceleration = new Vector2(-Math.sin(this.rotation), Math.cos(this.rotation)).multiplyByScalar(this.speed);
   }
-
-  if (this.getLeftBound() >= canvas.width)
-    this.x = 1;
-  if (this.getRightBound() <= 0)
-    this.x = canvas.width - 1;
-  if (this.getTopBound() >= canvas.height)
-    this.y = 1;
-  if (this.getBottomBound() <= 0)
-    this.y = canvas.height - 1;
 };

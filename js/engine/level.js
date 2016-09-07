@@ -56,6 +56,10 @@ Level.prototype.updateObjects = function(delta) {
   if (this.gameObjects) {
     for (var i = 0;i < this.gameObjects.length;i++) {
       if (this.gameObjects[i]) {
+        if (this.gameObjects[i].markedForDeletion) {
+          this.removeGameObject(this.gameObjects[i]);
+          continue;
+        }
         this.gameObjects[i].updatePhysics(delta);
         this.gameObjects[i].update(delta);
       } else {
