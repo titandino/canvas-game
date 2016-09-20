@@ -111,9 +111,9 @@ function StartMenu() {
 
 StartMenu.prototype.init = function() {
   this.background = this.addGameObject(new GameObject('#000000', canvas.width / 2, canvas.height / 2, canvas.height > canvas.width ? canvas.height : canvas.width, -1));
-  this.logo = this.addGameObject(new GameObject('logo.png', canvas.width / 2, canvas.height / 2 - 100, 400));
-  this.playButton = this.addGameObject(new GameObject('play.png', canvas.width / 2 - 200, canvas.height / 2, 100));
-  this.controlsButton = this.addGameObject(new GameObject('controls.png', canvas.width / 2 + 200, canvas.height / 2, 100));
+  this.logo = this.addGameObject(new GameObject('logo.png', canvas.width / 2, canvas.height / 2 - 100, 400, 2));
+  this.playButton = this.addGameObject(new GameObject('play.png', canvas.width / 2 - 200, canvas.height / 2, 100, 2));
+  this.controlsButton = this.addGameObject(new GameObject('controls.png', canvas.width / 2 + 200, canvas.height / 2, 100, 2));
 };
 
 StartMenu.prototype.update = function(delta) {
