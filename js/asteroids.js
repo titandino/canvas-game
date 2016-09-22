@@ -4,9 +4,10 @@ function Asteroids() {
   Level.call(this);
 
   this.asteroids = [];
-  this.spawnTime = 9;
+  this.spawnTime = 10;
   this.timer = 0;
   this.score = 0;
+  this.wavesSpawned = 0;
 }
 
 Asteroids.prototype.init = function() {
@@ -25,8 +26,22 @@ Asteroids.prototype.update = function(delta) {
   }
 };
 
+Asteroids.prototype.increaseDifficulty = function() {
+  if (this.spawnTime > 7)
+    this.spawnTime--;
+  else if (this.spawnTime > 4)
+    this.spawnTime -= 0.5;
+  else if (this.spawnTime > 2)
+    this.spawnTime -= 0.2;
+};
+
 Asteroids.prototype.spawnWave = function() {
-  this.spawnPowerUp();
+  this.wavesSpawned += 1;
+  if (this.wavesSpawned % 5) {
+    this.increaseDifficulty();
+  }
+  if (getRandom(0, 100) < 50)
+    this.spawnPowerUp();
   for(var i = 0;i < 5;i++) {
     this.spawnAsteroid();
   }
