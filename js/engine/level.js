@@ -25,7 +25,7 @@ Level.prototype.removeParticleSystem = function(ps) {
       if (this.particleSystems[index].gameObjects[i])
         this.removeGameObject(this.particleSystems[index].gameObjects[i]);
     }
-    this.particleSystems.splice(index);
+    this.particleSystems.splice(index, 1);
   }
 };
 
@@ -47,7 +47,7 @@ Level.prototype.addGameObject = function(object) {
 Level.prototype.removeGameObject = function(object) {
   let index = this.gameObjects.indexOf(object);
   if (index) {
-    this.gameObjects.splice(index);
+    this.gameObjects.splice(index, 1);
   }
 };
 
@@ -62,9 +62,9 @@ Level.prototype.updateObjects = function(delta) {
         }
         this.gameObjects[i].updatePhysics(delta);
         this.gameObjects[i].update(delta);
-      } else {
-        this.gameObjects.splice(i, 1);
       }
+      // else {
+      // }
     }
   }
   if (this.particleSystems) {

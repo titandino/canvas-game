@@ -12,7 +12,6 @@ Bullet.prototype.update = function() {
         this.markedForDeletion = true;
         currentLevel.asteroids[i].markedForDeletion = true;
         currentLevel.asteroids[i].processHit(i);
-        currentLevel.asteroids.splice(i);
       }
     }
   }
