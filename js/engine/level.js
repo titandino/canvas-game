@@ -4,8 +4,8 @@ function Level() {
 }
 
 Level.prototype.objectCount = function() {
-  var num = 0;
-  for (var i = 0;i < this.gameObjects.length;i++) {
+  let num = 0;
+  for (let i = 0;i < this.gameObjects.length;i++) {
     if (this.gameObjects[i]) {
       num++;
     }
@@ -19,19 +19,19 @@ Level.prototype.addParticleSystem = function(ps) {
 };
 
 Level.prototype.removeParticleSystem = function(ps) {
-  var index = this.particleSystems.indexOf(ps);
+  let index = this.particleSystems.indexOf(ps);
   if (index) {
-    for (var i = 0;i < this.particleSystems[index].gameObjects.length;i++) {
+    for (let i = 0;i < this.particleSystems[index].gameObjects.length;i++) {
       if (this.particleSystems[index].gameObjects[i])
         this.removeGameObject(this.particleSystems[index].gameObjects[i]);
     }
-    delete this.particleSystems[index];
+    this.particleSystems.splice(index);
   }
 };
 
 Level.prototype.addGameObject = function(object) {
-  var freeSpace = false;
-  for (var i = 0;i < this.gameObjects.length;i++) {
+  let freeSpace = false;
+  for (let i = 0;i < this.gameObjects.length;i++) {
     if (!this.gameObjects[i]) {
       this.gameObjects[i] = object;
       freeSpace = true;
@@ -45,16 +45,16 @@ Level.prototype.addGameObject = function(object) {
 };
 
 Level.prototype.removeGameObject = function(object) {
-  var index = this.gameObjects.indexOf(object);
+  let index = this.gameObjects.indexOf(object);
   if (index) {
-    delete this.gameObjects[index];
+    this.gameObjects.splice(index);
   }
 };
 
 Level.prototype.updateObjects = function(delta) {
-  this.gameObjects.sort(function(a,b) { return a.zIndex - b.zIndex });
+  this.gameObjects.sort(function(a,b) { return a.zIndex - b.zIndex; });
   if (this.gameObjects) {
-    for (var i = 0;i < this.gameObjects.length;i++) {
+    for (let i = 0;i < this.gameObjects.length;i++) {
       if (this.gameObjects[i]) {
         if (this.gameObjects[i].markedForDeletion) {
           this.removeGameObject(this.gameObjects[i]);
@@ -68,7 +68,7 @@ Level.prototype.updateObjects = function(delta) {
     }
   }
   if (this.particleSystems) {
-    for (var i = 0;i < this.particleSystems.length;i++) {
+    for (let i = 0;i < this.particleSystems.length;i++) {
       if (this.particleSystems[i])
         this.particleSystems[i].update(delta);
     }
@@ -77,7 +77,7 @@ Level.prototype.updateObjects = function(delta) {
 
 Level.prototype.renderObjects = function() {
   if (this.gameObjects) {
-    for (var i = 0;i < this.gameObjects.length;i++) {
+    for (let i = 0;i < this.gameObjects.length;i++) {
       if (this.gameObjects[i]) {
         this.gameObjects[i].render();
         this.gameObjects[i].renderExtra();
@@ -88,13 +88,13 @@ Level.prototype.renderObjects = function() {
 
 Level.prototype.unload = function() {
   if (this.gameObjects) {
-    for (var i = 0;i < this.gameObjects.length;i++) {
+    for (let i = 0;i < this.gameObjects.length;i++) {
       if (this.gameObjects[i])
         this.removeGameObject(this.gameObjects[i]);
     }
   }
   if (this.particleSystems) {
-    for (var i = 0;i < this.particleSystems.length;i++) {
+    for (let i = 0;i < this.particleSystems.length;i++) {
       if (this.particleSystems[i])
         this.removeGameObject(this.particleSystems[i]);
     }

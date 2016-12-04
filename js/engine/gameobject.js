@@ -1,7 +1,7 @@
-var LOADED_IMAGES = [];
+const LOADED_IMAGES = [];
 
 function imageLoaded(sprite) {
-  for (var i = 0;i < LOADED_IMAGES.length;i++) {
+  for (let i = 0;i < LOADED_IMAGES.length;i++) {
     if (LOADED_IMAGES[i].src === sprite)
       return i;
   }
@@ -16,7 +16,7 @@ function keepImage(image) {
 function GameObject(sprite, x, y, scale, zIndex) {
   if (sprite && !sprite.startsWith('#')) {
     if (imageLoaded(sprite) === -1) {
-      var image = new Image();
+      let image = new Image();
       image.onload = keepImage(image);
       image.src = 'sprites/' + sprite;
       this.sprite = image;

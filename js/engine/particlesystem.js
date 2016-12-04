@@ -30,7 +30,7 @@ ParticleSystem.prototype.update = function(delta) {
     }
   }
 
-  for (var i = 0;i < this.gameObjects.length;i++) {
+  for (let i = 0;i < this.gameObjects.length;i++) {
     if (this.gameObjects[i]) {
       if (this.gameObjects[i].transparency - 0.01 > 0) {
         this.gameObjects[i].transparency -= 0.01;
@@ -41,10 +41,10 @@ ParticleSystem.prototype.update = function(delta) {
   }
 
   if (!this.created) {
-    for (var i = 0;i < this.numParticles;i++) {
-      var particle = new Particle(this.sprite, this.x, this.y, getRandomFloat(this.minSize, this.maxSize));
+    for (let i = 0;i < this.numParticles;i++) {
+      let particle = new Particle(this.sprite, this.x, this.y, getRandomFloat(this.minSize, this.maxSize));
       particle.velocity = new Vector2(getRandomFloat(this.minX, this.maxX), getRandomFloat(this.minY, this.maxY)).normalize();
-      var speed = getRandomFloat(this.minSpeed, this.maxSpeed);
+      let speed = getRandomFloat(this.minSpeed, this.maxSpeed);
       particle.velocity.multiplyByScalar(speed);
       if (this.gravity)
         particle.gravity = this.gravity;

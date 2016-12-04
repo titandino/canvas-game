@@ -1,21 +1,21 @@
-var canvas = document.getElementById('game-canvas');
+const canvas = document.getElementById('game-canvas');
 if (!canvas) {
   console.log('No canvas found.');
 }
 
-var ctx = canvas.getContext('2d');
+const ctx = canvas.getContext('2d');
 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-var FPS = 60;
-var DEBUG = false;
+const FPS = 60;
+const DEBUG = false;
 
-var currentLevel = new StartMenu();
+let currentLevel = new StartMenu();
 currentLevel.init();
 
-var keysDown = [];
-var mousePos = {x: 0, y: 0};
+let keysDown = [];
+let mousePos = {x: 0, y: 0};
 
 canvas.addEventListener('mousedown', function(e) {
   mousePos = getLocalMousePos(canvas, e);
@@ -27,7 +27,7 @@ canvas.addEventListener('mousemove', function(e) {
 }, false);
 
 function getLocalMousePos(canvas, e) {
-  var rect = canvas.getBoundingClientRect();
+  let rect = canvas.getBoundingClientRect();
   return {
     x: (e.clientX - rect.left) / (rect.right - rect.left) * canvas.width,
     y: (e.clientY - rect.top) / (rect.bottom - rect.top) * canvas.height
@@ -87,8 +87,8 @@ function render() {
 }
 
 function main() {
-  var now = Date.now();
-  var delta = now - then;
+  let now = Date.now();
+  let delta = now - then;
 
   update(delta / 1000);
   render();
@@ -96,5 +96,5 @@ function main() {
   then = now;
 }
 
-var then = Date.now();
+let then = Date.now();
 setInterval(main, 1000 / FPS);

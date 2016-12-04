@@ -4,7 +4,7 @@ function Vector2(x, y) {
 }
 
 Vector2.prototype.normalize = function() {
-  var mag = Math.sqrt((this.x * this.x) + (this.y * this.y));
+  let mag = Math.sqrt((this.x * this.x) + (this.y * this.y));
   if (mag != 0) {
     this.x /= mag;
     this.y /= mag;

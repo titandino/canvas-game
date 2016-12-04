@@ -42,7 +42,7 @@ Asteroids.prototype.spawnWave = function() {
   }
   if (getRandom(0, 100) < 50)
     this.spawnPowerUp();
-  for(var i = 0;i < 5;i++) {
+  for(let i = 0;i < 5;i++) {
     this.spawnAsteroid();
   }
 };
@@ -52,8 +52,8 @@ Asteroids.prototype.spawnPowerUp = function() {
 };
 
 Asteroids.prototype.spawnAsteroid = function() {
-  var dir = getRandom(0, 5);
-  var asteroid = new Asteroid(0, 0, getRandom(25, 75));
+  let dir = getRandom(0, 5);
+  let asteroid = new Asteroid(0, 0, getRandom(25, 75));
   if (dir <= 1) {
     asteroid.x = 0;
     asteroid.y = 0;
@@ -86,9 +86,9 @@ Asteroids.prototype.render = function() {
 
 PowerUp.prototype = Object.create(GameObject.prototype);
 
-var POWERUP_TRISHOT = 0;
-var POWERUP_SHOT_SPEED = 1;
-var POWERUP_INVULNERABILITY = 2;
+const POWERUP_TRISHOT = 0;
+const POWERUP_SHOT_SPEED = 1;
+const POWERUP_INVULNERABILITY = 2;
 
 function PowerUp(type, x, y) {
   GameObject.call(this, this.getSpriteByType(type), x, y, 30);
@@ -149,8 +149,8 @@ StartMenu.prototype.onMouseDown = function() {
 };
 
 StartMenu.prototype.spawnAsteroid = function() {
-  var dir = getRandom(0, 5);
-  var asteroid = new Particle('asteroid.png', 0, 0, getRandom(25, 75));
+  let dir = getRandom(0, 5);
+  let asteroid = new Particle('asteroid.png', 0, 0, getRandom(25, 75));
   if (dir <= 1) {
     asteroid.x = 0;
     asteroid.y = 0;
