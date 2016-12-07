@@ -74,8 +74,8 @@ Ship.prototype.update = function(delta) {
       if (this.rectCollide(currentLevel.asteroids[i])) {
         this.removeHealth(getRandom(5, 9));
         currentLevel.addParticleSystem(new ParticleSystem('asteroid.png', currentLevel.asteroids[i].x, currentLevel.asteroids[i].y, 2, 25, 5, 15, 40, 80, -50, 50, -50, 50));
-        currentLevel.asteroids[i].markedForDeletion = true;
-        currentLevel.asteroids[i].splice(i, 1);
+        currentLevel.removeGameObject(currentLevel.asteroids[i]);
+        currentLevel.asteroids[i] = null;
       }
     }
   }

@@ -40,7 +40,6 @@ function GameObject(sprite, x, y, scale, zIndex) {
   this.zIndex = zIndex || 0;
   this.wrapViewport = false;
   this.deleteOnViewportExit = false;
-  this.markedForDeletion = false;
 
   this.acceleration = new Vector2(0, 0);
   this.velocity = new Vector2(0, 0);

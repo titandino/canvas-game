@@ -72,6 +72,12 @@ Asteroids.prototype.spawnAsteroid = function() {
     asteroid.velocity = new Vector2(getRandomFloat(-10, -50), getRandomFloat(10, 50));
   }
   asteroid.angularVelocity = getRandomFloat(-2, 2);
+  for (let i = 0;i < this.asteroids.length;i++) {
+    if (!this.asteroids[i]) {
+      this.asteroids[i] = this.addGameObject(asteroid);
+      return;
+    }
+  }
   this.asteroids.push(this.addGameObject(asteroid));
 };
 
@@ -99,7 +105,7 @@ PowerUp.prototype.update = function() {
   if (currentLevel.player.rectCollide(this)) {
     currentLevel.addParticleSystem(new ParticleSystem('#00FFFF', this.x, this.y, 2, 25, 5, 15, 40, 80, -50, 50, -50, 50));
     currentLevel.player.powerups[this.type] = 15;
-    this.markedForDeletion = true;
+    currentLevel.removeGameObject(this);
   }
 };
 

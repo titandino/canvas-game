@@ -30,17 +30,13 @@ Level.prototype.removeParticleSystem = function(ps) {
 };
 
 Level.prototype.addGameObject = function(object) {
-  let freeSpace = false;
   for (let i = 0;i < this.gameObjects.length;i++) {
     if (!this.gameObjects[i]) {
       this.gameObjects[i] = object;
-      freeSpace = true;
-      break;
+      return object;
     }
   }
-  if (!freeSpace) {
-    this.gameObjects.push(object);
-  }
+  this.gameObjects.push(object);
   return object;
 };
 
@@ -56,15 +52,9 @@ Level.prototype.updateObjects = function(delta) {
   if (this.gameObjects) {
     for (let i = 0;i < this.gameObjects.length;i++) {
       if (this.gameObjects[i]) {
-        if (this.gameObjects[i].markedForDeletion) {
-          this.removeGameObject(this.gameObjects[i]);
-          continue;
-        }
         this.gameObjects[i].updatePhysics(delta);
         this.gameObjects[i].update(delta);
       }
-      // else {
-      // }
     }
   }
   if (this.particleSystems) {
@@ -87,18 +77,8 @@ Level.prototype.renderObjects = function() {
 };
 
 Level.prototype.unload = function() {
-  if (this.gameObjects) {
-    for (let i = 0;i < this.gameObjects.length;i++) {
-      if (this.gameObjects[i])
-        this.removeGameObject(this.gameObjects[i]);
-    }
-  }
-  if (this.particleSystems) {
-    for (let i = 0;i < this.particleSystems.length;i++) {
-      if (this.particleSystems[i])
-        this.removeGameObject(this.particleSystems[i]);
-    }
-  }
+  this.gameObjects = [];
+  this.particleSystems = [];
 };
 
 Level.prototype.init = function() {

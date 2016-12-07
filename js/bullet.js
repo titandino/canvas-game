@@ -9,9 +9,10 @@ Bullet.prototype.update = function() {
   for(let i = 0;i < currentLevel.asteroids.length;i++) {
     if (currentLevel.asteroids[i]) {
       if (this.rectCollide(currentLevel.asteroids[i])) {
-        this.markedForDeletion = true;
-        currentLevel.asteroids[i].markedForDeletion = true;
         currentLevel.asteroids[i].processHit(i);
+        currentLevel.removeGameObject(this);
+        currentLevel.removeGameObject(currentLevel.asteroids[i]);
+        currentLevel.asteroids[i] = null;
       }
     }
   }
