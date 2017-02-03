@@ -1,7 +1,7 @@
-function Vector2(x, y) {
+module.exports = function Vector2(x, y) {
   this.x = x;
   this.y = y;
-}
+};
 
 Vector2.prototype.normalize = function() {
   let mag = Math.sqrt((this.x * this.x) + (this.y * this.y));

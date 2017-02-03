@@ -1,6 +1,14 @@
+let Game = require('./engine/game');
+let GameObject = require('./engine/game');
+let Vector2 = require('./engine/vector2');
+
+let Ship = require('./ship');
+let Asteroid = require('./asteroid');
+let PowerUp = require('./powerup');
+
 Asteroids.prototype = Object.create(Level.prototype);
 
-function Asteroids() {
+module.exports = function Asteroids() {
   Level.call(this);
 
   this.asteroids = [];
@@ -8,11 +16,11 @@ function Asteroids() {
   this.timer = 0;
   this.score = 0;
   this.wavesSpawned = 0;
-}
+};
 
 Asteroids.prototype.init = function() {
-  this.background = this.addGameObject(new GameObject('#000000', canvas.width / 2, canvas.height / 2, canvas.height > canvas.width ? canvas.height : canvas.width, -1));
-  this.player = this.addGameObject(new Ship('ship.png', canvas.width / 2, canvas.height / 2, 20));
+  this.background = this.addGameObject(new GameObject('#000000', Game.canvas.width / 2, Game.canvas.height / 2, Game.canvas.height > Game.canvas.width ? Game.canvas.height : Game.canvas.width, -1));
+  this.player = this.addGameObject(new Ship('ship.png', Game.canvas.width / 2, Game.canvas.height / 2, 20));
   this.player.shield = this.addGameObject(new GameObject('#00FFFF', 0, 0, 50, 1));
   this.player.shield.visible = false;
 };
@@ -40,7 +48,7 @@ Asteroids.prototype.spawnWave = function() {
   if (this.wavesSpawned % 5) {
     this.increaseDifficulty();
   }
-  if (getRandom(0, 100) < 50)
+  if (Game.getRandom(0, 100) < 50)
     this.spawnPowerUp();
   for(let i = 0;i < 5;i++) {
     this.spawnAsteroid();
@@ -48,30 +56,30 @@ Asteroids.prototype.spawnWave = function() {
 };
 
 Asteroids.prototype.spawnPowerUp = function() {
-  this.addGameObject(new PowerUp(getRandom(0, this.player.powerups.length), getRandom(50, canvas.width), getRandom(50, canvas.height)));
+  this.addGameObject(new PowerUp(Game.getRandom(0, this.player.powerups.length), Game.getRandom(50, canvas.width), Game.getRandom(50, canvas.height)));
 };
 
 Asteroids.prototype.spawnAsteroid = function() {
-  let dir = getRandom(0, 5);
-  let asteroid = new Asteroid(0, 0, getRandom(25, 75));
+  let dir = Game.getRandom(0, 5);
+  let asteroid = new Asteroid(0, 0, Game.getRandom(25, 75));
   if (dir <= 1) {
     asteroid.x = 0;
     asteroid.y = 0;
-    asteroid.velocity = new Vector2(getRandomFloat(10, 50), getRandomFloat(10, 50));
+    asteroid.velocity = new Vector2(Game.getRandomFloat(10, 50), Game.getRandomFloat(10, 50));
   } else if (dir === 2) {
     asteroid.x = 0;
     asteroid.y = canvas.height;
-    asteroid.velocity = new Vector2(getRandomFloat(10, 50), getRandomFloat(-10, -50));
+    asteroid.velocity = new Vector2(Game.getRandomFloat(10, 50), Game.getRandomFloat(-10, -50));
   } else if (dir === 3) {
     asteroid.x = canvas.width;
     asteroid.y = canvas.height;
-    asteroid.velocity = new Vector2(getRandomFloat(-10, -50), getRandomFloat(-10, -50));
+    asteroid.velocity = new Vector2(Game.getRandomFloat(-10, -50), Game.getRandomFloat(-10, -50));
   } else {
     asteroid.x = canvas.width;
     asteroid.y = 0;
-    asteroid.velocity = new Vector2(getRandomFloat(-10, -50), getRandomFloat(10, 50));
+    asteroid.velocity = new Vector2(Game.getRandomFloat(-10, -50), Game.getRandomFloat(10, 50));
   }
-  asteroid.angularVelocity = getRandomFloat(-2, 2);
+  asteroid.angularVelocity = Game.getRandomFloat(-2, 2);
   for (let i = 0;i < this.asteroids.length;i++) {
     if (!this.asteroids[i]) {
       this.asteroids[i] = this.addGameObject(asteroid);
@@ -82,140 +90,10 @@ Asteroids.prototype.spawnAsteroid = function() {
 };
 
 Asteroids.prototype.render = function() {
-  drawText('Ship health: ' + this.player.health, 20, 20, '#00FF00');
-  drawText('Score: ' + this.score, 20, 32, '#00FF00');
-  if (DEBUG) {
-    drawText('Game object buffer len: ' + this.gameObjects.length, 20, 44, '#00FF00');
-    drawText('Game objects: ' + this.objectCount(), 20, 56, '#00FF00');
-  }
-};
-
-PowerUp.prototype = Object.create(GameObject.prototype);
-
-const POWERUP_TRISHOT = 0;
-const POWERUP_SHOT_SPEED = 1;
-const POWERUP_INVULNERABILITY = 2;
-
-function PowerUp(type, x, y) {
-  GameObject.call(this, this.getSpriteByType(type), x, y, 30);
-  this.type = type;
-}
-
-PowerUp.prototype.update = function() {
-  if (currentLevel.player.rectCollide(this)) {
-    currentLevel.addParticleSystem(new ParticleSystem('#00FFFF', this.x, this.y, 2, 25, 5, 15, 40, 80, -50, 50, -50, 50));
-    currentLevel.player.powerups[this.type] = 15;
-    currentLevel.removeGameObject(this);
-  }
-};
-
-PowerUp.prototype.getSpriteByType = function(type) {
-  switch(type) {
-  case 0:
-    return 'trishot.png';
-  case 1:
-    return 'shotspeed.png';
-  case 2:
-    return 'invulnerability.png';
-  default:
-    return '#00FF00';
-  }
-};
-
-StartMenu.prototype = Object.create(Level.prototype);
-
-function StartMenu() {
-  Level.call(this);
-
-  this.timer = 1.0;
-}
-
-StartMenu.prototype.init = function() {
-  this.background = this.addGameObject(new GameObject('#000000', canvas.width / 2, canvas.height / 2, canvas.height > canvas.width ? canvas.height : canvas.width, -1));
-  this.logo = this.addGameObject(new GameObject('logo.png', canvas.width / 2, canvas.height / 2 - 100, 400, 2));
-  this.playButton = this.addGameObject(new GameObject('play.png', canvas.width / 2 - 200, canvas.height / 2, 100, 2));
-  this.controlsButton = this.addGameObject(new GameObject('controls.png', canvas.width / 2 + 200, canvas.height / 2, 100, 2));
-};
-
-StartMenu.prototype.update = function(delta) {
-  if (this.timer > 0)
-    this.timer -= delta;
-  if (this.timer <= 0) {
-    this.spawnAsteroid();
-    this.timer = 1.0;
-  }
-};
-
-StartMenu.prototype.onMouseDown = function() {
-  if (this.playButton.pointCollide(mousePos.x, mousePos.y)) {
-    switchLevel(new Asteroids());
-  } else if (this.controlsButton.pointCollide(mousePos.x, mousePos.y)) {
-    switchLevel(new ControlsMenu());
-  }
-};
-
-StartMenu.prototype.spawnAsteroid = function() {
-  let dir = getRandom(0, 5);
-  let asteroid = new Particle('asteroid.png', 0, 0, getRandom(25, 75));
-  if (dir <= 1) {
-    asteroid.x = 0;
-    asteroid.y = 0;
-    asteroid.velocity = new Vector2(getRandomFloat(10, 50), getRandomFloat(10, 50));
-  } else if (dir === 2) {
-    asteroid.x = 0;
-    asteroid.y = canvas.height;
-    asteroid.velocity = new Vector2(getRandomFloat(10, 50), getRandomFloat(-10, -50));
-  } else if (dir === 3) {
-    asteroid.x = canvas.width;
-    asteroid.y = canvas.height;
-    asteroid.velocity = new Vector2(getRandomFloat(-10, -50), getRandomFloat(-10, -50));
-  } else {
-    asteroid.x = canvas.width;
-    asteroid.y = 0;
-    asteroid.velocity = new Vector2(getRandomFloat(-10, -50), getRandomFloat(10, 50));
-  }
-  asteroid.angularVelocity = getRandomFloat(-2, 2);
-  this.addGameObject(asteroid);
-};
-
-ControlsMenu.prototype = Object.create(Level.prototype);
-
-function ControlsMenu() {
-  Level.call(this);
-}
-
-ControlsMenu.prototype.init = function() {
-  this.background = this.addGameObject(new GameObject('#000000', canvas.width / 2, canvas.height / 2, canvas.height > canvas.width ? canvas.height : canvas.width, -1));
-  this.controls = this.addGameObject(new GameObject('controlsbg.png', canvas.width / 2, canvas.height / 2, canvas.height < canvas.width ? canvas.height : canvas.width));
-  this.backButton = this.addGameObject(new GameObject('back.png', canvas.width / 2 + 200, canvas.height / 2 + 200, 100));
-};
-
-ControlsMenu.prototype.onMouseDown = function() {
-  if (this.backButton.pointCollide(mousePos.x, mousePos.y)) {
-    switchLevel(new StartMenu());
-  }
-};
-
-LossMenu.prototype = Object.create(Level.prototype);
-
-function LossMenu(score) {
-  Level.call(this);
-
-  this.score = score;
-}
-
-LossMenu.prototype.init = function() {
-  this.background = this.addGameObject(new GameObject('#000000', canvas.width / 2, canvas.height / 2, canvas.height > canvas.width ? canvas.height : canvas.width, -1));
-  this.backButton = this.addGameObject(new GameObject('back.png', canvas.width / 2 + 200, canvas.height / 2 + 200, 100));
-};
-
-LossMenu.prototype.render = function() {
-  drawText('YOUR SHIP WAS DESTROYED', canvas.width / 2, canvas.height / 2 - 200, '#00FF00', '50px', 'Helvetica', 'center');
-  drawText('FINAL SCORE: ' + this.score, canvas.width / 2, canvas.height / 2, '#00FF00', '50px', 'Helvetica', 'center');
-};
-
-LossMenu.prototype.onMouseDown = function() {
-  if (this.backButton.pointCollide(mousePos.x, mousePos.y)) {
-    switchLevel(new StartMenu());
+  Game.drawText('Ship health: ' + this.player.health, 20, 20, '#00FF00');
+  Game.drawText('Score: ' + this.score, 20, 32, '#00FF00');
+  if (Game.DEBUG) {
+    Game.drawText('Game object buffer len: ' + this.gameObjects.length, 20, 44, '#00FF00');
+    Game.drawText('Game objects: ' + this.objectCount(), 20, 56, '#00FF00');
   }
 };

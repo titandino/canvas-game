@@ -1,12 +1,15 @@
+let Game = require('./game');
+let GameObject = require('./gameobject');
+
 Particle.prototype = Object.create(GameObject.prototype);
 
-function Particle(spriteFile, x, y, scale) {
+module.exports = function Particle(spriteFile, x, y, scale) {
   GameObject.call(this, spriteFile, x, y, scale);
   this.life = 0;
   this.hasLife = false;
-  this.rotation = getRandomFloat(-5, 5);
+  this.rotation = Game.getRandomFloat(-5, 5);
   this.deleteOnViewportExit = true;
-}
+};
 
 Particle.prototype.setLife = function(life) {
   this.life = life;

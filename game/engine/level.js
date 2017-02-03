@@ -1,7 +1,7 @@
-function Level() {
+module.exports = function Level() {
   this.gameObjects = [];
   this.particleSystems = [];
-}
+};
 
 Level.prototype.objectCount = function() {
   let num = 0;

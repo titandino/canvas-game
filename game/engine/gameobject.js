@@ -1,3 +1,6 @@
+let Game = require('./game');
+let Vector2 = require('./vector2');
+
 const LOADED_IMAGES = [];
 
 function imageLoaded(sprite) {
@@ -13,7 +16,7 @@ function keepImage(image) {
     LOADED_IMAGES.push(image);
 }
 
-function GameObject(sprite, x, y, scale, zIndex) {
+module.exports = function GameObject(sprite, x, y, scale, zIndex) {
   if (sprite && !sprite.startsWith('#')) {
     if (imageLoaded(sprite) === -1) {
       let image = new Image();
@@ -43,7 +46,7 @@ function GameObject(sprite, x, y, scale, zIndex) {
 
   this.acceleration = new Vector2(0, 0);
   this.velocity = new Vector2(0, 0);
-}
+};
 
 GameObject.prototype.updatePhysics = function(delta) {
   if (this.hasMovement) {
@@ -59,21 +62,21 @@ GameObject.prototype.updatePhysics = function(delta) {
   }
   this.rotation += this.angularVelocity * delta;
   if (this.wrapViewport) {
-    if (this.getLeftBound() >= canvas.width)
+    if (this.getLeftBound() >= Game.canvas.width)
       this.x = 1;
     if (this.getRightBound() <= 0)
-      this.x = canvas.width - 1;
-    if (this.getTopBound() >= canvas.height)
+      this.x = Game.canvas.width - 1;
+    if (this.getTopBound() >= Game.canvas.height)
       this.y = 1;
     if (this.getBottomBound() <= 0)
-      this.y = canvas.height - 1;
+      this.y = Game.canvas.height - 1;
   }
   if (this.deleteOnViewportExit) {
-    if (this.getLeftBound() >= canvas.width)
+    if (this.getLeftBound() >= Game.canvas.width)
       this.markedForDeletion = true;
     if (this.getRightBound() <= 0)
       this.markedForDeletion = true;
-    if (this.getTopBound() >= canvas.height)
+    if (this.getTopBound() >= Game.canvas.height)
       this.markedForDeletion = true;
     if (this.getBottomBound() <= 0)
       this.markedForDeletion = true;
