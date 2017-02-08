@@ -1,4 +1,4 @@
-let Game = include('./engine/game');
+let Game = require('./engine/game');
 let GameObject = require('./engine/gameobject');
 let ParticleSystem = require('./engine/particlesystem');
 let Vector2 = require('./engine/vector2');
@@ -7,8 +7,6 @@ let Input = require('./engine/input');
 let PowerUp = require('./powerup');
 let LossMenu = require('./lossmenu');
 let Bullet = require('./bullet');
-
-Ship.prototype = Object.create(GameObject.prototype);
 
 let Ship = module.exports = function(sprite, x, y, scale) {
   GameObject.call(this, sprite, x, y, scale);
@@ -20,6 +18,8 @@ let Ship = module.exports = function(sprite, x, y, scale) {
   this.powerups = [ 0, 0, 0 ];
   this.wrapViewport = true;
 };
+
+Ship.prototype = Object.create(GameObject.prototype);
 
 Ship.prototype.removeHealth = function(amount) {
   if (this.powerups[PowerUp.INVULNERABILITY] <= 0)

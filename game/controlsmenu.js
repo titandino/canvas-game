@@ -4,11 +4,11 @@ let Input = require('./engine/input');
 
 let StartMenu = require('./startmenu');
 
-ControlsMenu.prototype = Object.create(Level.prototype);
-
 let ControlsMenu = module.exports = function() {
   Level.call(this);
 };
+
+ControlsMenu.prototype = Object.create(Level.prototype);
 
 ControlsMenu.prototype.init = function() {
   this.background = this.addGameObject(new GameObject('#000000', Game.canvas.width / 2, Game.canvas.height / 2, Game.canvas.height > Game.canvas.width ? Game.canvas.height : Game.canvas.width, -1));

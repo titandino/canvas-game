@@ -1,17 +1,18 @@
 let Game = require('./game');
 
-module.exports = {
-  keysDown: [],
-  mousePos: {x: 0, y: 0}
-};
+let keysDown = [];
+let mousePos = {x: 0, y: 0};
+
+exports.mousePos = mousePos;
+exports.keysDown = keysDown;
 
 Game.canvas.addEventListener('mousedown', function(e) {
-  exports.mousePos = getLocalMousePos(canvas, e);
+  mousePos = getLocalMousePos(Game.canvas, e);
   Game.currentLevel.onMouseDown();
 }, false);
 
 Game.canvas.addEventListener('mousemove', function(e) {
-  mousePos = getLocalMousePos(canvas, e);
+  mousePos = getLocalMousePos(Game.canvas, e);
 }, false);
 
 function getLocalMousePos(canvas, e) {
@@ -23,8 +24,8 @@ function getLocalMousePos(canvas, e) {
 }
 
 window.addEventListener('keydown', function(e) {
-  exports.keysDown[e.keyCode] = true;
-  switch(e.keyCode){
+  keysDown[e.keyCode] = true;
+  switch(e.keyCode) {
   case 37:
   case 39:
   case 38:
@@ -38,5 +39,5 @@ window.addEventListener('keydown', function(e) {
 }, false);
 
 window.addEventListener('keyup', function(e) {
-  exports.keysDown[e.keyCode] = false;
+  keysDown[e.keyCode] = false;
 }, false);

@@ -7,21 +7,19 @@ let Game = module.exports = function(startLevel) {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
   this.DEBUG = false;
-  this.currentLevel = startLevel;
-  this.currentLevel.init();
+  Game.currentLevel = startLevel;
+  Game.currentLevel.init();
 
-  function main() {
+  let then = Date.now();
+  setInterval(() => {
     let now = Date.now();
     let delta = now - then;
 
-    update(delta / 1000);
-    render();
+    Game.update(delta / 1000);
+    Game.render();
 
     then = now;
-  }
-
-  let then = Date.now();
-  setInterval(main, 1000 / FPS);
+  }, 1000 / FPS);
 };
 
 Game.canvas = canvas;
@@ -43,19 +41,19 @@ Game.getRandom = function(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
 };
 
-Game.prototype.switchLevel = function(newLevel) {
-  this.currentLevel.unload();
-  this.currentLevel = newLevel;
-  this.currentLevel.init();
+Game.switchLevel = function(newLevel) {
+  Game.currentLevel.unload();
+  Game.currentLevel = newLevel;
+  Game.currentLevel.init();
 };
 
-Game.prototype.update = function(delta) {
-  this.currentLevel.updateObjects(delta);
-  this.currentLevel.update(delta);
+Game.update = function(delta) {
+  Game.currentLevel.updateObjects(delta);
+  Game.currentLevel.update(delta);
 };
 
-Game.prototype.render = function() {
+Game.render = function() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  this.currentLevel.renderObjects(ctx);
-  this.currentLevel.render(ctx);
+  Game.currentLevel.renderObjects(ctx);
+  Game.currentLevel.render(ctx);
 };

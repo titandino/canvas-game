@@ -1,12 +1,11 @@
 let Game = require('./engine/game');
 let GameObject = require('./engine/game');
 let Vector2 = require('./engine/vector2');
+let Level = require('./engine/level');
 
 let Ship = require('./ship');
 let Asteroid = require('./asteroid');
 let PowerUp = require('./powerup');
-
-Asteroids.prototype = Object.create(Level.prototype);
 
 let Asteroids = module.exports = function() {
   Level.call(this);
@@ -17,6 +16,8 @@ let Asteroids = module.exports = function() {
   this.score = 0;
   this.wavesSpawned = 0;
 };
+
+Asteroids.prototype = Object.create(Level.prototype);
 
 Asteroids.prototype.init = function() {
   this.background = this.addGameObject(new GameObject('#000000', Game.canvas.width / 2, Game.canvas.height / 2, Game.canvas.height > Game.canvas.width ? Game.canvas.height : Game.canvas.width, -1));

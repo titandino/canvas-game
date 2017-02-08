@@ -79,21 +79,19 @@ let Game = module.exports = function(startLevel) {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
   this.DEBUG = false;
-  this.currentLevel = startLevel;
-  this.currentLevel.init();
+  Game.currentLevel = startLevel;
+  Game.currentLevel.init();
 
-  function main() {
+  let then = Date.now();
+  setInterval(() => {
     let now = Date.now();
     let delta = now - then;
 
-    update(delta / 1000);
-    render();
+    Game.update(delta / 1000);
+    Game.render();
 
     then = now;
-  }
-
-  let then = Date.now();
-  setInterval(main, 1000 / FPS);
+  }, 1000 / FPS);
 };
 
 Game.canvas = canvas;
@@ -115,21 +113,21 @@ Game.getRandom = function(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
 };
 
-Game.prototype.switchLevel = function(newLevel) {
-  this.currentLevel.unload();
-  this.currentLevel = newLevel;
-  this.currentLevel.init();
+Game.switchLevel = function(newLevel) {
+  Game.currentLevel.unload();
+  Game.currentLevel = newLevel;
+  Game.currentLevel.init();
 };
 
-Game.prototype.update = function(delta) {
-  this.currentLevel.updateObjects(delta);
-  this.currentLevel.update(delta);
+Game.update = function(delta) {
+  Game.currentLevel.updateObjects(delta);
+  Game.currentLevel.update(delta);
 };
 
-Game.prototype.render = function() {
+Game.render = function() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  this.currentLevel.renderObjects(ctx);
-  this.currentLevel.render(ctx);
+  Game.currentLevel.renderObjects(ctx);
+  Game.currentLevel.render(ctx);
 };
 
 
@@ -364,18 +362,19 @@ Vector2.prototype.reflect = function (direction) {
 
 let Game = __webpack_require__(0);
 
-module.exports = {
-  keysDown: [],
-  mousePos: {x: 0, y: 0}
-};
+let keysDown = [];
+let mousePos = {x: 0, y: 0};
+
+exports.mousePos = mousePos;
+exports.keysDown = keysDown;
 
 Game.canvas.addEventListener('mousedown', function(e) {
-  exports.mousePos = getLocalMousePos(canvas, e);
+  mousePos = getLocalMousePos(Game.canvas, e);
   Game.currentLevel.onMouseDown();
 }, false);
 
 Game.canvas.addEventListener('mousemove', function(e) {
-  mousePos = getLocalMousePos(canvas, e);
+  mousePos = getLocalMousePos(Game.canvas, e);
 }, false);
 
 function getLocalMousePos(canvas, e) {
@@ -387,8 +386,8 @@ function getLocalMousePos(canvas, e) {
 }
 
 window.addEventListener('keydown', function(e) {
-  exports.keysDown[e.keyCode] = true;
-  switch(e.keyCode){
+  keysDown[e.keyCode] = true;
+  switch(e.keyCode) {
   case 37:
   case 39:
   case 38:
@@ -402,82 +401,12 @@ window.addEventListener('keydown', function(e) {
 }, false);
 
 window.addEventListener('keyup', function(e) {
-  exports.keysDown[e.keyCode] = false;
+  keysDown[e.keyCode] = false;
 }, false);
 
 
 /***/ }),
 /* 4 */
-/***/ (function(module, exports, __webpack_require__) {
-
-let Game = __webpack_require__(0);
-let Input = __webpack_require__(3);
-let Level = __webpack_require__(5);
-let Particle = __webpack_require__(7);
-let Vector2 = __webpack_require__(2);
-
-let ControlsMenu = __webpack_require__(12);
-let Asteroids = __webpack_require__(10);
-
-StartMenu.prototype = Object.create(Level.prototype);
-
-let StartMenu = module.exports = function() {
-  Level.call(this);
-
-  this.timer = 1.0;
-};
-
-StartMenu.prototype.init = function() {
-  this.background = this.addGameObject(new GameObject('#000000', Game.canvas.width / 2, Game.canvas.height / 2, Game.canvas.height > Game.canvas.width ? Game.canvas.height : Game.canvas.width, -1));
-  this.logo = this.addGameObject(new GameObject('logo.png', Game.canvas.width / 2, Game.canvas.height / 2 - 100, 400, 2));
-  this.playButton = this.addGameObject(new GameObject('play.png', Game.canvas.width / 2 - 200, Game.canvas.height / 2, 100, 2));
-  this.controlsButton = this.addGameObject(new GameObject('controls.png', Game.canvas.width / 2 + 200, Game.canvas.height / 2, 100, 2));
-};
-
-StartMenu.prototype.update = function(delta) {
-  if (this.timer > 0)
-    this.timer -= delta;
-  if (this.timer <= 0) {
-    this.spawnAsteroid();
-    this.timer = 1.0;
-  }
-};
-
-StartMenu.prototype.onMouseDown = function() {
-  if (this.playButton.pointCollide(Input.mousePos.x, Input.mousePos.y)) {
-    Game.switchLevel(new Asteroids());
-  } else if (this.controlsButton.pointCollide(Input.mousePos.x, Input.mousePos.y)) {
-    Game.switchLevel(new ControlsMenu());
-  }
-};
-
-StartMenu.prototype.spawnAsteroid = function() {
-  let dir = Game.getRandom(0, 5);
-  let asteroid = new Particle('asteroid.png', 0, 0, Game.getRandom(25, 75));
-  if (dir <= 1) {
-    asteroid.x = 0;
-    asteroid.y = 0;
-    asteroid.velocity = new Vector2(Game.getRandomFloat(10, 50), Game.getRandomFloat(10, 50));
-  } else if (dir === 2) {
-    asteroid.x = 0;
-    asteroid.y = canvas.height;
-    asteroid.velocity = new Vector2(Game.getRandomFloat(10, 50), Game.getRandomFloat(-10, -50));
-  } else if (dir === 3) {
-    asteroid.x = canvas.width;
-    asteroid.y = canvas.height;
-    asteroid.velocity = new Vector2(Game.getRandomFloat(-10, -50), Game.getRandomFloat(-10, -50));
-  } else {
-    asteroid.x = canvas.width;
-    asteroid.y = 0;
-    asteroid.velocity = new Vector2(Game.getRandomFloat(-10, -50), Game.getRandomFloat(10, 50));
-  }
-  asteroid.angularVelocity = Game.getRandomFloat(-2, 2);
-  this.addGameObject(asteroid);
-};
-
-
-/***/ }),
-/* 5 */
 /***/ (function(module, exports) {
 
 let Level = module.exports = function() {
@@ -585,6 +514,77 @@ Level.prototype.onMouseMove = function() {
 
 
 /***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+let Game = __webpack_require__(0);
+let Input = __webpack_require__(3);
+let Level = __webpack_require__(4);
+let Particle = __webpack_require__(7);
+let Vector2 = __webpack_require__(2);
+let GameObject = __webpack_require__(1);
+
+let ControlsMenu = __webpack_require__(12);
+let Asteroids = __webpack_require__(10);
+
+let StartMenu = module.exports = function() {
+  Level.call(this);
+
+  this.timer = 1.0;
+};
+
+StartMenu.prototype = Object.create(Level.prototype);
+
+StartMenu.prototype.init = function() {
+  this.background = this.addGameObject(new GameObject('#000000', Game.canvas.width / 2, Game.canvas.height / 2, Game.canvas.height > Game.canvas.width ? Game.canvas.height : Game.canvas.width, -1));
+  this.logo = this.addGameObject(new GameObject('logo.png', Game.canvas.width / 2, Game.canvas.height / 2 - 100, 400, 2));
+  this.playButton = this.addGameObject(new GameObject('play.png', Game.canvas.width / 2 - 200, Game.canvas.height / 2, 100, 2));
+  this.controlsButton = this.addGameObject(new GameObject('controls.png', Game.canvas.width / 2 + 200, Game.canvas.height / 2, 100, 2));
+};
+
+StartMenu.prototype.update = function(delta) {
+  if (this.timer > 0)
+    this.timer -= delta;
+  if (this.timer <= 0) {
+    this.spawnAsteroid();
+    this.timer = 1.0;
+  }
+};
+
+StartMenu.prototype.onMouseDown = function() {
+  if (this.playButton.pointCollide(Input.mousePos.x, Input.mousePos.y)) {
+    Game.switchLevel(new Asteroids());
+  } else if (this.controlsButton.pointCollide(Input.mousePos.x, Input.mousePos.y)) {
+    Game.switchLevel(new ControlsMenu());
+  }
+};
+
+StartMenu.prototype.spawnAsteroid = function() {
+  let dir = Game.getRandom(0, 5);
+  let asteroid = new Particle('asteroid.png', 0, 0, Game.getRandom(25, 75));
+  if (dir <= 1) {
+    asteroid.x = 0;
+    asteroid.y = 0;
+    asteroid.velocity = new Vector2(Game.getRandomFloat(10, 50), Game.getRandomFloat(10, 50));
+  } else if (dir === 2) {
+    asteroid.x = 0;
+    asteroid.y = Game.canvas.height;
+    asteroid.velocity = new Vector2(Game.getRandomFloat(10, 50), Game.getRandomFloat(-10, -50));
+  } else if (dir === 3) {
+    asteroid.x = Game.canvas.width;
+    asteroid.y = Game.canvas.height;
+    asteroid.velocity = new Vector2(Game.getRandomFloat(-10, -50), Game.getRandomFloat(-10, -50));
+  } else {
+    asteroid.x = Game.canvas.width;
+    asteroid.y = 0;
+    asteroid.velocity = new Vector2(Game.getRandomFloat(-10, -50), Game.getRandomFloat(10, 50));
+  }
+  asteroid.angularVelocity = Game.getRandomFloat(-2, 2);
+  this.addGameObject(asteroid);
+};
+
+
+/***/ }),
 /* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -657,8 +657,6 @@ ParticleSystem.prototype.update = function(delta) {
 let Game = __webpack_require__(0);
 let GameObject = __webpack_require__(1);
 
-Particle.prototype = Object.create(GameObject.prototype);
-
 let Particle = module.exports = function(spriteFile, x, y, scale) {
   GameObject.call(this, spriteFile, x, y, scale);
   this.life = 0;
@@ -666,6 +664,8 @@ let Particle = module.exports = function(spriteFile, x, y, scale) {
   this.rotation = Game.getRandomFloat(-5, 5);
   this.deleteOnViewportExit = true;
 };
+
+Particle.prototype = Object.create(GameObject.prototype);
 
 Particle.prototype.setLife = function(life) {
   this.life = life;
@@ -691,16 +691,16 @@ let Game = __webpack_require__(0);
 let GameObject = __webpack_require__(1);
 let ParticleSystem = __webpack_require__(6);
 
+let PowerUp = module.exports = function(type, x, y) {
+  GameObject.call(this, this.getSpriteByType(type), x, y, 30);
+  this.type = type;
+};
+
 PowerUp.TRISHOT = 0;
 PowerUp.SHOT_SPEED = 1;
 PowerUp.INVULNERABILITY = 2;
 
 PowerUp.prototype = Object.create(GameObject.prototype);
-
-let PowerUp = module.exports = function(type, x, y) {
-  GameObject.call(this, this.getSpriteByType(type), x, y, 30);
-  this.type = type;
-};
 
 PowerUp.prototype.update = function() {
   if (Game.currentLevel.player.rectCollide(this)) {
@@ -733,12 +733,12 @@ let GameObject = __webpack_require__(1);
 
 let ParticleSystem = __webpack_require__(6);
 
-Asteroid.prototype = Object.create(GameObject.prototype);
-
 let Asteroid = module.exports = function(x, y, scale) {
   GameObject.call(this, 'asteroid.png', x, y, scale);
   this.deleteOnViewportExit = true;
 };
+
+Asteroid.prototype = Object.create(GameObject.prototype);
 
 Asteroid.prototype.processHit = function() {
   Game.currentLevel.addParticleSystem(new ParticleSystem('asteroid.png', this.x, this.y, 2, 25, 5, 15, 40, 80, -50, 50, -50, 50));
@@ -760,12 +760,11 @@ Asteroid.prototype.processHit = function() {
 let Game = __webpack_require__(0);
 let GameObject = __webpack_require__(0);
 let Vector2 = __webpack_require__(2);
+let Level = __webpack_require__(4);
 
 let Ship = __webpack_require__(14);
 let Asteroid = __webpack_require__(9);
 let PowerUp = __webpack_require__(8);
-
-Asteroids.prototype = Object.create(Level.prototype);
 
 let Asteroids = module.exports = function() {
   Level.call(this);
@@ -776,6 +775,8 @@ let Asteroids = module.exports = function() {
   this.score = 0;
   this.wavesSpawned = 0;
 };
+
+Asteroids.prototype = Object.create(Level.prototype);
 
 Asteroids.prototype.init = function() {
   this.background = this.addGameObject(new GameObject('#000000', Game.canvas.width / 2, Game.canvas.height / 2, Game.canvas.height > Game.canvas.width ? Game.canvas.height : Game.canvas.width, -1));
@@ -865,12 +866,12 @@ Asteroids.prototype.render = function() {
 let Game = __webpack_require__(0);
 let GameObject = __webpack_require__(1);
 
-Bullet.prototype = Object.create(GameObject.prototype);
-
 let Bullet = module.exports = function(sprite, x, y, scale) {
   GameObject.call(this, sprite, x, y, scale);
   this.deleteOnViewportExit = true;
 };
+
+Bullet.prototype = Object.create(GameObject.prototype);
 
 Bullet.prototype.update = function() {
   for(let i = 0;i < Game.currentLevel.asteroids.length;i++) {
@@ -891,16 +892,16 @@ Bullet.prototype.update = function() {
 /***/ (function(module, exports, __webpack_require__) {
 
 let Game = __webpack_require__(0);
-let Level = __webpack_require__(5);
+let Level = __webpack_require__(4);
 let Input = __webpack_require__(3);
 
-let StartMenu = __webpack_require__(4);
-
-ControlsMenu.prototype = Object.create(Level.prototype);
+let StartMenu = __webpack_require__(5);
 
 let ControlsMenu = module.exports = function() {
   Level.call(this);
 };
+
+ControlsMenu.prototype = Object.create(Level.prototype);
 
 ControlsMenu.prototype.init = function() {
   this.background = this.addGameObject(new GameObject('#000000', Game.canvas.width / 2, Game.canvas.height / 2, Game.canvas.height > Game.canvas.width ? Game.canvas.height : Game.canvas.width, -1));
@@ -919,20 +920,20 @@ ControlsMenu.prototype.onMouseDown = function() {
 /* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
-let Level = __webpack_require__(5);
+let Level = __webpack_require__(4);
 let Game = __webpack_require__(0);
 let Input = __webpack_require__(3);
 let GameObject = __webpack_require__(1);
 
-let StartMenu = __webpack_require__(4);
-
-LossMenu.prototype = Object.create(Level.prototype);
+let StartMenu = __webpack_require__(5);
 
 let LossMenu = module.exports = function(score) {
   Level.call(this);
 
   this.score = score;
 };
+
+LossMenu.prototype = Object.create(Level.prototype);
 
 LossMenu.prototype.init = function() {
   this.background = this.addGameObject(new GameObject('#000000', Game.canvas.width / 2, Game.canvas.height / 2, Game.canvas.height > Game.canvas.width ? Game.canvas.height : Game.canvas.width, -1));
@@ -955,7 +956,7 @@ LossMenu.prototype.onMouseDown = function() {
 /* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
-let Game = include('./engine/game');
+let Game = __webpack_require__(0);
 let GameObject = __webpack_require__(1);
 let ParticleSystem = __webpack_require__(6);
 let Vector2 = __webpack_require__(2);
@@ -964,8 +965,6 @@ let Input = __webpack_require__(3);
 let PowerUp = __webpack_require__(8);
 let LossMenu = __webpack_require__(13);
 let Bullet = __webpack_require__(11);
-
-Ship.prototype = Object.create(GameObject.prototype);
 
 let Ship = module.exports = function(sprite, x, y, scale) {
   GameObject.call(this, sprite, x, y, scale);
@@ -977,6 +976,8 @@ let Ship = module.exports = function(sprite, x, y, scale) {
   this.powerups = [ 0, 0, 0 ];
   this.wrapViewport = true;
 };
+
+Ship.prototype = Object.create(GameObject.prototype);
 
 Ship.prototype.removeHealth = function(amount) {
   if (this.powerups[PowerUp.INVULNERABILITY] <= 0)
@@ -1083,7 +1084,7 @@ Ship.prototype.update = function(delta) {
 /***/ (function(module, exports, __webpack_require__) {
 
 let Game = __webpack_require__(0);
-let StartMenu = __webpack_require__(4);
+let StartMenu = __webpack_require__(5);
 
 module.exports = new Game(new StartMenu());
 

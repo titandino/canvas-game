@@ -2,16 +2,16 @@ let Game = require('./engine/game');
 let GameObject = require('./engine/gameobject');
 let ParticleSystem = require('./engine/particlesystem');
 
+let PowerUp = module.exports = function(type, x, y) {
+  GameObject.call(this, this.getSpriteByType(type), x, y, 30);
+  this.type = type;
+};
+
 PowerUp.TRISHOT = 0;
 PowerUp.SHOT_SPEED = 1;
 PowerUp.INVULNERABILITY = 2;
 
 PowerUp.prototype = Object.create(GameObject.prototype);
-
-let PowerUp = module.exports = function(type, x, y) {
-  GameObject.call(this, this.getSpriteByType(type), x, y, 30);
-  this.type = type;
-};
 
 PowerUp.prototype.update = function() {
   if (Game.currentLevel.player.rectCollide(this)) {
