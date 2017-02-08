@@ -1,5 +1,5 @@
 let Game = require('./engine/game');
-let GameObject = require('./engine/game');
+let GameObject = require('./engine/gameobject');
 let Vector2 = require('./engine/vector2');
 let Level = require('./engine/level');
 
