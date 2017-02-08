@@ -369,12 +369,16 @@ exports.mousePos = mousePos;
 exports.keysDown = keysDown;
 
 Game.canvas.addEventListener('mousedown', function(e) {
-  mousePos = getLocalMousePos(Game.canvas, e);
+  let pos = getLocalMousePos(Game.canvas, e);
+  mousePos.x = pos.x;
+  mousePos.y = pos.y;
   Game.currentLevel.onMouseDown();
 }, false);
 
 Game.canvas.addEventListener('mousemove', function(e) {
-  mousePos = getLocalMousePos(Game.canvas, e);
+  let pos = getLocalMousePos(Game.canvas, e);
+  mousePos.x = pos.x;
+  mousePos.y = pos.y;
 }, false);
 
 function getLocalMousePos(canvas, e) {
@@ -894,6 +898,7 @@ Bullet.prototype.update = function() {
 let Game = __webpack_require__(0);
 let Level = __webpack_require__(4);
 let Input = __webpack_require__(3);
+let GameObject = __webpack_require__(1);
 
 let StartMenu = __webpack_require__(5);
 

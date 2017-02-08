@@ -1,6 +1,7 @@
 let Game = require('./engine/game');
 let Level = require('./engine/level');
 let Input = require('./engine/input');
+let GameObject = require('./engine/gameobject');
 
 let StartMenu = require('./startmenu');
 
