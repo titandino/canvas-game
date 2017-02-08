@@ -40,23 +40,22 @@ Game.getRandom = function(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
 };
 
-Game.switchLevel = function(newLevel) {
-  currentLevel.unload();
-  currentLevel = newLevel;
-  currentLevel.init();
+Game.prototype.switchLevel = function(newLevel) {
+  this.currentLevel.unload();
+  this.currentLevel = newLevel;
+  this.currentLevel.init();
 };
 
-function update(delta) {
-  currentLevel.updateObjects(delta);
-  currentLevel.update(delta);
-}
+Game.prototype.update = function(delta) {
+  this.currentLevel.updateObjects(delta);
+  this.currentLevel.update(delta);
+};
 
-function render() {
+Game.prototype.render = function() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  currentLevel.renderObjects(ctx);
-  currentLevel.render(ctx);
-}
+  this.currentLevel.renderObjects(ctx);
+  this.currentLevel.render(ctx);
+};
 
 
 Game.canvas = canvas;
-Game.currentLevel = currentLevel;
