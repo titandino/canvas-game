@@ -8,7 +8,7 @@ let PowerUp = require('./powerup');
 
 Asteroids.prototype = Object.create(Level.prototype);
 
-module.exports = function Asteroids() {
+let Asteroids = module.exports = function() {
   Level.call(this);
 
   this.asteroids = [];

@@ -7,7 +7,7 @@ let StartMenu = require('./startmenu');
 
 LossMenu.prototype = Object.create(Level.prototype);
 
-module.exports = function LossMenu(score) {
+let LossMenu = module.exports = function(score) {
   Level.call(this);
 
   this.score = score;

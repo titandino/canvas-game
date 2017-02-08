@@ -3,7 +3,7 @@ const ctx = canvas.getContext('2d');
 
 const FPS = 35;
 
-module.exports = function Game(startLevel) {
+let Game = module.exports = function(startLevel) {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
   this.DEBUG = false;
@@ -23,6 +23,9 @@ module.exports = function Game(startLevel) {
   let then = Date.now();
   setInterval(main, 1000 / FPS);
 };
+
+Game.canvas = canvas;
+Game.ctx = ctx;
 
 Game.drawText = function(text, x, y, color, size, font, align) {
   ctx.fillStyle = color;
@@ -56,6 +59,3 @@ Game.prototype.render = function() {
   this.currentLevel.renderObjects(ctx);
   this.currentLevel.render(ctx);
 };
-
-
-Game.canvas = canvas;

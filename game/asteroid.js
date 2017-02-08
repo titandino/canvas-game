@@ -5,7 +5,7 @@ let ParticleSystem = require('./engine/particlesystem');
 
 Asteroid.prototype = Object.create(GameObject.prototype);
 
-module.exports = function Asteroid(x, y, scale) {
+let Asteroid = module.exports = function(x, y, scale) {
   GameObject.call(this, 'asteroid.png', x, y, scale);
   this.deleteOnViewportExit = true;
 };

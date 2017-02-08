@@ -1,4 +1,4 @@
 let Game = require('./engine/game');
 let StartMenu = require('./startmenu');
 
-new Game(new StartMenu());
+module.exports = new Game(new StartMenu());

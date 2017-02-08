@@ -1,4 +1,4 @@
-module.exports = function Level() {
+let Level = module.exports = function() {
   this.gameObjects = [];
   this.particleSystems = [];
 };

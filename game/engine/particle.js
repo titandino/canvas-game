@@ -3,7 +3,7 @@ let GameObject = require('./gameobject');
 
 Particle.prototype = Object.create(GameObject.prototype);
 
-module.exports = function Particle(spriteFile, x, y, scale) {
+let Particle = module.exports = function(spriteFile, x, y, scale) {
   GameObject.call(this, spriteFile, x, y, scale);
   this.life = 0;
   this.hasLife = false;

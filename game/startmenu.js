@@ -9,7 +9,7 @@ let Asteroids = require('./asteroids');
 
 StartMenu.prototype = Object.create(Level.prototype);
 
-module.exports = function StartMenu() {
+let StartMenu = module.exports = function() {
   Level.call(this);
 
   this.timer = 1.0;

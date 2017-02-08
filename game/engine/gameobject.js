@@ -16,7 +16,7 @@ function keepImage(image) {
     LOADED_IMAGES.push(image);
 }
 
-module.exports = function GameObject(sprite, x, y, scale, zIndex) {
+let GameObject = module.exports = function(sprite, x, y, scale, zIndex) {
   if (sprite && !sprite.startsWith('#')) {
     if (imageLoaded(sprite) === -1) {
       let image = new Image();

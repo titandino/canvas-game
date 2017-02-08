@@ -2,7 +2,7 @@ let Game = require('./game');
 let Particle = require('./particle');
 let Vector2 = require('./vector2');
 
-module.exports = function ParticleSystem(sprite, x, y, life, numParticles, minSize, maxSize, minSpeed, maxSpeed, minX, maxX, minY, maxY, gravity) {
+let ParticleSystem = module.exports = function(sprite, x, y, life, numParticles, minSize, maxSize, minSpeed, maxSpeed, minX, maxX, minY, maxY, gravity) {
   this.x = x;
   this.y = y;
   this.lifetime = life;

@@ -4,13 +4,13 @@ let ParticleSystem = require('./engine/particlesystem');
 let Vector2 = require('./engine/vector2');
 let Input = require('./engine/input');
 
-let PowerUp = require('./powerups');
+let PowerUp = require('./powerup');
 let LossMenu = require('./lossmenu');
 let Bullet = require('./bullet');
 
 Ship.prototype = Object.create(GameObject.prototype);
 
-module.exports = function Ship(sprite, x, y, scale) {
+let Ship = module.exports = function(sprite, x, y, scale) {
   GameObject.call(this, sprite, x, y, scale);
   this.health = 100;
   this.timeBetweenShots = 0.5;

@@ -8,7 +8,7 @@ PowerUp.INVULNERABILITY = 2;
 
 PowerUp.prototype = Object.create(GameObject.prototype);
 
-module.exports = function PowerUp(type, x, y) {
+let PowerUp = module.exports = function(type, x, y) {
   GameObject.call(this, this.getSpriteByType(type), x, y, 30);
   this.type = type;
 };
