@@ -87,7 +87,7 @@ GameObject.prototype.update = function() {
 
 };
 
-GameObject.prototype.render = function() {
+GameObject.prototype.render = function(ctx) {
   if (this.visible) {
     ctx.globalAlpha = this.transparency;
     ctx.translate(this.x, this.y);

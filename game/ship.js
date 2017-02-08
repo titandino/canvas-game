@@ -2,6 +2,7 @@ let Game = include('./engine/game');
 let GameObject = require('./engine/gameobject');
 let ParticleSystem = require('./engine/particlesystem');
 let Vector2 = require('./engine/vector2');
+let Input = require('./engine/input');
 
 let PowerUp = require('./powerups');
 let LossMenu = require('./lossmenu');
@@ -97,24 +98,24 @@ Ship.prototype.update = function(delta) {
   this.velocity.x *= velDamper;
   this.velocity.y *= velDamper;
 
-  if (keysDown[32]) {
+  if (Input.keysDown[32]) {
     if (this.shotTimer <= 0) {
       this.fireBullet();
     }
   }
 
-  if (keysDown[68]) {
+  if (Input.keysDown[68]) {
     this.rotation += this.turnSpeed * delta;
-  } else if (keysDown[65]) {
+  } else if (Input.keysDown[65]) {
     this.rotation -= this.turnSpeed * delta;
   }
 
-  if (keysDown[87]) {
+  if (Input.keysDown[87]) {
     let fireOffset = new Vector2(-Math.sin(this.rotation), Math.cos(this.rotation)).multiplyByScalar(this.scale);
     this.acceleration = new Vector2(Math.sin(this.rotation), -Math.cos(this.rotation)).multiplyByScalar(this.speed);
     Game.currentLevel.addParticleSystem(new ParticleSystem('fire.png', this.x + fireOffset.x, this.y + fireOffset.y, 2, 2, 5, 15, 40, 80,
     (fireOffset.x * 10) - 50, (fireOffset.x * 10) + 50, (fireOffset.y * 10) - 50, (fireOffset.y * 10) + 50));
-  } else if (keysDown[83]) {
+  } else if (Input.keysDown[83]) {
     this.acceleration = new Vector2(-Math.sin(this.rotation), Math.cos(this.rotation)).multiplyByScalar(this.speed);
   }
 };
