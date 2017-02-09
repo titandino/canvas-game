@@ -1,10 +1,5 @@
 const HTMLPlugin = require('html-webpack-plugin');
-
-const plugins = [
-  new HTMLPlugin({
-    template: './app/index.html',
-  })
-];
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
   entry: './app/index',
@@ -12,7 +7,12 @@ module.exports = {
     filename:'compiled.js',
     path:'./build'
   },
-  plugins,
+  plugins: [
+    new HTMLPlugin({
+      template: './app/index.html'
+    }),
+    new ExtractTextPlugin('./app/css/style.css')
+  ],
   module: {
     loaders: [
       {
@@ -25,7 +25,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        loader: 'css',
+        loader: 'style!css',
       }
     ],
   }
