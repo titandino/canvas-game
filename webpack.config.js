@@ -7,12 +7,12 @@ module.exports = {
     filename:'compiled.js',
     path:'./build'
   },
-  plugins: [
-    new HTMLPlugin({
-      template: './app/index.html'
-    }),
-    new ExtractTextPlugin('./app/css/style.css')
-  ],
+  // plugins: [
+  //   new HTMLPlugin({
+  //     template: './app/index.html'
+  //   }),
+  //   new ExtractTextPlugin('./app/css/style.css')
+  // ],
   module: {
     loaders: [
       {

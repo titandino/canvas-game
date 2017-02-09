@@ -3,8 +3,6 @@ let Level = require('./engine/level');
 let Input = require('./engine/input');
 let GameObject = require('./engine/gameobject');
 
-let StartMenu = require('./startmenu');
-
 let ControlsMenu = module.exports = function() {
   Level.call(this);
 };
@@ -18,6 +16,7 @@ ControlsMenu.prototype.init = function() {
 };
 
 ControlsMenu.prototype.onMouseDown = function() {
+  let StartMenu = require('./startmenu');
   if (this.backButton.pointCollide(Input.mousePos.x, Input.mousePos.y)) {
     Game.switchLevel(new StartMenu());
   }
