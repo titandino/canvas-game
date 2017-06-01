@@ -1,5 +1,5 @@
 module.exports = {
-  entry: './game',
+  entry: './game/engine/game.js',
   output: {
     filename:'compiled.js',
     path:'./build'

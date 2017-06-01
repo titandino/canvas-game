@@ -62,5 +62,6 @@ function main() {
 let then = Date.now();
 setInterval(main, 1000 / FPS);
 
+console.log('Set canvas exports.');
 exports.canvas = canvas;
 exports.currentLevel = currentLevel;

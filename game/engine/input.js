@@ -5,6 +5,8 @@ module.exports = {
   mousePos: {x: 0, y: 0}
 };
 
+console.log(Game.canvas);
+
 Game.canvas.addEventListener('mousedown', function(e) {
   exports.mousePos = getLocalMousePos(canvas, e);
   Game.currentLevel.onMouseDown();
