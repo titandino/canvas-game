@@ -1,14 +1,13 @@
 let Game = require('./engine/game');
-let GameObject = require('./engine/game');
+let GameObject = require('./engine/gameobject');
 let Vector2 = require('./engine/vector2');
+let Level = require('./engine/level');
 
 let Ship = require('./ship');
 let Asteroid = require('./asteroid');
 let PowerUp = require('./powerup');
 
-Asteroids.prototype = Object.create(Level.prototype);
-
-module.exports = function Asteroids() {
+let Asteroids = module.exports = function() {
   Level.call(this);
 
   this.asteroids = [];
@@ -17,6 +16,8 @@ module.exports = function Asteroids() {
   this.score = 0;
   this.wavesSpawned = 0;
 };
+
+Asteroids.prototype = Object.create(Level.prototype);
 
 Asteroids.prototype.init = function() {
   this.background = this.addGameObject(new GameObject('#000000', Game.canvas.width / 2, Game.canvas.height / 2, Game.canvas.height > Game.canvas.width ? Game.canvas.height : Game.canvas.width, -1));
@@ -56,7 +57,7 @@ Asteroids.prototype.spawnWave = function() {
 };
 
 Asteroids.prototype.spawnPowerUp = function() {
-  this.addGameObject(new PowerUp(Game.getRandom(0, this.player.powerups.length), Game.getRandom(50, canvas.width), Game.getRandom(50, canvas.height)));
+  this.addGameObject(new PowerUp(Game.getRandom(0, this.player.powerups.length), Game.getRandom(50, Game.canvas.width), Game.getRandom(50, Game.canvas.height)));
 };
 
 Asteroids.prototype.spawnAsteroid = function() {
@@ -68,14 +69,14 @@ Asteroids.prototype.spawnAsteroid = function() {
     asteroid.velocity = new Vector2(Game.getRandomFloat(10, 50), Game.getRandomFloat(10, 50));
   } else if (dir === 2) {
     asteroid.x = 0;
-    asteroid.y = canvas.height;
+    asteroid.y = Game.canvas.height;
     asteroid.velocity = new Vector2(Game.getRandomFloat(10, 50), Game.getRandomFloat(-10, -50));
   } else if (dir === 3) {
-    asteroid.x = canvas.width;
-    asteroid.y = canvas.height;
+    asteroid.x = Game.canvas.width;
+    asteroid.y = Game.canvas.height;
     asteroid.velocity = new Vector2(Game.getRandomFloat(-10, -50), Game.getRandomFloat(-10, -50));
   } else {
-    asteroid.x = canvas.width;
+    asteroid.x = Game.canvas.width;
     asteroid.y = 0;
     asteroid.velocity = new Vector2(Game.getRandomFloat(-10, -50), Game.getRandomFloat(10, 50));
   }

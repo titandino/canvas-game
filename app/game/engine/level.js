@@ -1,4 +1,4 @@
-module.exports = function Level() {
+let Level = module.exports = function() {
   this.gameObjects = [];
   this.particleSystems = [];
 };
@@ -65,12 +65,12 @@ Level.prototype.updateObjects = function(delta) {
   }
 };
 
-Level.prototype.renderObjects = function() {
+Level.prototype.renderObjects = function(ctx) {
   if (this.gameObjects) {
     for (let i = 0;i < this.gameObjects.length;i++) {
       if (this.gameObjects[i]) {
-        this.gameObjects[i].render();
-        this.gameObjects[i].renderExtra();
+        this.gameObjects[i].render(ctx);
+        this.gameObjects[i].renderExtra(ctx);
       }
     }
   }

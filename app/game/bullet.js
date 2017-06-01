@@ -1,12 +1,12 @@
 let Game = require('./engine/game');
 let GameObject = require('./engine/gameobject');
 
-Bullet.prototype = Object.create(GameObject.prototype);
-
-module.exports = function Bullet(sprite, x, y, scale) {
+let Bullet = module.exports = function(sprite, x, y, scale) {
   GameObject.call(this, sprite, x, y, scale);
   this.deleteOnViewportExit = true;
 };
+
+Bullet.prototype = Object.create(GameObject.prototype);
 
 Bullet.prototype.update = function() {
   for(let i = 0;i < Game.currentLevel.asteroids.length;i++) {

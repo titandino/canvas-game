@@ -5,13 +5,13 @@ let GameObject = require('./engine/gameobject');
 
 let StartMenu = require('./startmenu');
 
-LossMenu.prototype = Object.create(Level.prototype);
-
-module.exports = function LossMenu(score) {
+let LossMenu = module.exports = function(score) {
   Level.call(this);
 
   this.score = score;
 };
+
+LossMenu.prototype = Object.create(Level.prototype);
 
 LossMenu.prototype.init = function() {
   this.background = this.addGameObject(new GameObject('#000000', Game.canvas.width / 2, Game.canvas.height / 2, Game.canvas.height > Game.canvas.width ? Game.canvas.height : Game.canvas.width, -1));

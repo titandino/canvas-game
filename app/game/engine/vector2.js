@@ -1,4 +1,4 @@
-module.exports = function Vector2(x, y) {
+let Vector2 = module.exports = function(x, y) {
   this.x = x;
   this.y = y;
 };
