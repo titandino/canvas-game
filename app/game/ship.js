@@ -36,23 +36,23 @@ Ship.prototype.fireMissile = function() {
   let missileOffset = new Vector2(Math.sin(this.rotation), -Math.cos(this.rotation)).multiplyByScalar(this.scale);
   Game.currentLevel.addGameObject(new Missile(this.x + missileOffset.x, this.y + missileOffset.y, 30));
   this.missileTimer = 6;
-  if (this.powerups[POWERUP_SHOT_SPEED] > 0) {
+  if (this.powerups[PowerUp.SHOT_SPEED] > 0) {
     this.missileTimer /= 2;
   }
 };
 
 Ship.prototype.fireBullet = function() {
   let bulletOffset = new Vector2(Math.sin(this.rotation), -Math.cos(this.rotation)).multiplyByScalar(this.scale);
-  let bullet = new Bullet('#FF0000', this.x + bulletOffset.x, this.y + bulletOffset.y, this.powerups[POWERUP_BULLETSIZE] > 0 ? 15 : 5);
+  let bullet = new Bullet('#FF0000', this.x + bulletOffset.x, this.y + bulletOffset.y, this.powerups[PowerUp.BULLETSIZE] > 0 ? 15 : 5);
   bullet.velocity = bulletOffset.normalize().multiplyByScalar(800);
   Game.currentLevel.addGameObject(bullet);
   if (this.powerups[PowerUp.TRISHOT] > 0) {
     let bulletOffset2 = new Vector2(Math.sin(this.rotation - 0.2), -Math.cos(this.rotation - 0.2)).multiplyByScalar(this.scale);
-    let bullet2 = new Bullet('#FF0000', this.x + bulletOffset2.x, this.y + bulletOffset2.y, this.powerups[POWERUP_BULLETSIZE] > 0 ? 15 : 5);
+    let bullet2 = new Bullet('#FF0000', this.x + bulletOffset2.x, this.y + bulletOffset2.y, this.powerups[PowerUp.BULLETSIZE] > 0 ? 15 : 5);
     bullet2.velocity = bulletOffset2.normalize().multiplyByScalar(800);
     Game.currentLevel.addGameObject(bullet2);
     let bulletOffset3 = new Vector2(Math.sin(this.rotation + 0.2), -Math.cos(this.rotation + 0.2)).multiplyByScalar(this.scale);
-    let bullet3 = new Bullet('#FF0000', this.x + bulletOffset3.x, this.y + bulletOffset3.y, this.powerups[POWERUP_BULLETSIZE] > 0 ? 15 : 5);
+    let bullet3 = new Bullet('#FF0000', this.x + bulletOffset3.x, this.y + bulletOffset3.y, this.powerups[PowerUp.BULLETSIZE] > 0 ? 15 : 5);
     bullet3.velocity = bulletOffset3.normalize().multiplyByScalar(800);
     Game.currentLevel.addGameObject(bullet3);
   }
