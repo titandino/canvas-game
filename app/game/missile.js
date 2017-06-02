@@ -3,14 +3,14 @@ let GameObject = require('./engine/gameobject');
 let ParticleSystem = require('./engine/particlesystem');
 let Vector2 = require('./engine/vector2');
 
-Missile.prototype = Object.create(GameObject.prototype);
-
-function Missile(x, y, scale) {
+let Missile = module.exports = function(x, y, scale) {
   GameObject.call(this, 'missile.png', x, y, scale);
   this.deleteOnViewportExit = true;
   this.target = null;
   this.retarget();
-}
+};
+
+Missile.prototype = Object.create(GameObject.prototype);
 
 Missile.prototype.retarget = function() {
   let newTarget = null;
