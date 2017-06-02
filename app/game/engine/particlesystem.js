@@ -1,4 +1,8 @@
-function ParticleSystem(sprite, x, y, life, numParticles, minSize, maxSize, minSpeed, maxSpeed, minX, maxX, minY, maxY, gravity) {
+let Game = require('./game');
+let Particle = require('./particle');
+let Vector2 = require('./vector2');
+
+let ParticleSystem = module.exports = function(sprite, x, y, life, numParticles, minSize, maxSize, minSpeed, maxSpeed, minX, maxX, minY, maxY, gravity) {
   this.x = x;
   this.y = y;
   this.lifetime = life;
@@ -19,12 +23,12 @@ function ParticleSystem(sprite, x, y, life, numParticles, minSize, maxSize, minS
 
   if (this.lifetime == 0)
     this.hasLife = false;
-}
+};
 
 ParticleSystem.prototype.update = function(delta) {
   if (this.hasLife) {
     if (this.lifetime <= 0) {
-      currentLevel.removeParticleSystem(this);
+      Game.currentLevel.removeParticleSystem(this);
     } else {
       this.lifetime -= delta;
     }
@@ -42,14 +46,14 @@ ParticleSystem.prototype.update = function(delta) {
 
   if (!this.created) {
     for (let i = 0;i < this.numParticles;i++) {
-      let particle = new Particle(this.sprite, this.x, this.y, getRandomFloat(this.minSize, this.maxSize));
-      particle.velocity = new Vector2(getRandomFloat(this.minX, this.maxX), getRandomFloat(this.minY, this.maxY)).normalize();
-      let speed = getRandomFloat(this.minSpeed, this.maxSpeed);
+      let particle = new Particle(this.sprite, this.x, this.y, Game.getRandomFloat(this.minSize, this.maxSize));
+      particle.velocity = new Vector2(Game.getRandomFloat(this.minX, this.maxX), Game.getRandomFloat(this.minY, this.maxY)).normalize();
+      let speed = Game.getRandomFloat(this.minSpeed, this.maxSpeed);
       particle.velocity.multiplyByScalar(speed);
       if (this.gravity)
         particle.gravity = this.gravity;
       this.gameObjects.push(particle);
-      currentLevel.addGameObject(particle);
+      Game.currentLevel.addGameObject(particle);
     }
     this.created = true;
   }

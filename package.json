@@ -1,0 +1,28 @@
+{
+  "name": "canvas-game",
+  "version": "1.0.0",
+  "description": "JavaScript game on an HTML5 canvas.",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/titandino/canvas-game.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/titandino/canvas-game/issues"
+  },
+  "homepage": "https://github.com/titandino/canvas-game#readme",
+  "dependencies": {
+    "css-loader": "^0.26.1",
+    "extract-text-webpack-plugin": "^1.0.1",
+    "html-loader": "^0.4.4",
+    "html-webpack-plugin": "^2.28.0",
+    "style-loader": "^0.13.1",
+    "webpack": "^2.2.1"
+  }
+}

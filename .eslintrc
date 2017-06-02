@@ -1,12 +1,14 @@
 {
    "settings": {
-    "ecmascript": 5
+    "ecmascript": 6
   },
   "ecmaFeatures": {
   },
   "env": {
     "browser": true,
-    "jquery": true
+    "jquery": true,
+    "es6": true,
+    "node": true
   },
   "rules": {
     "semi": [2, "always"],
@@ -24,6 +26,6 @@
     "no-trailing-spaces": 1,
     "no-mixed-spaces-and-tabs": 1,
     "new-cap": 1,
-    no-redeclare: [2, { "builtinGlobals": true }]    
+    no-redeclare: [2, { "builtinGlobals": true }]
   }
 }
