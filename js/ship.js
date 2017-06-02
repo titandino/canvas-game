@@ -5,10 +5,12 @@ function Ship(sprite, x, y, scale) {
   this.health = 100;
   this.timeBetweenShots = 0.5;
   this.shotTimer = 0;
+  this.missileTimer = 0;
   this.turnSpeed = 3;
   this.speed = 80;
-  this.powerups = [ 0, 0, 0 ];
+  this.powerups = [ 0, 0, 0, 0 ];
   this.wrapViewport = true;
+  this.shield = new GameObject('#00FFFF', this.x, this.y, 20);
 }
 
 Ship.prototype.removeHealth = function(amount) {
@@ -20,20 +22,32 @@ Ship.prototype.removeHealth = function(amount) {
   }
 };
 
+Ship.prototype.fireMissile = function() {
+  let missileOffset = new Vector2(Math.sin(this.rotation), -Math.cos(this.rotation)).multiplyByScalar(this.scale);
+  currentLevel.addGameObject(new Missile(this.x + missileOffset.x, this.y + missileOffset.y, 30));
+  this.missileTimer = 6;
+  if (this.powerups[POWERUP_SHOT_SPEED] > 0) {
+    this.missileTimer /= 2;
+  }
+};
+
 Ship.prototype.fireBullet = function() {
   let bulletOffset = new Vector2(Math.sin(this.rotation), -Math.cos(this.rotation)).multiplyByScalar(this.scale);
-  let bullet = new Bullet('#FF0000', this.x + bulletOffset.x, this.y + bulletOffset.y, 5);
+  let bullet = new Bullet('#FF0000', this.x + bulletOffset.x, this.y + bulletOffset.y, this.powerups[POWERUP_BULLETSIZE] > 0 ? 15 : 5);
   bullet.velocity = bulletOffset.normalize().multiplyByScalar(800);
   currentLevel.addGameObject(bullet);
   if (this.powerups[POWERUP_TRISHOT] > 0) {
     let bulletOffset2 = new Vector2(Math.sin(this.rotation - 0.2), -Math.cos(this.rotation - 0.2)).multiplyByScalar(this.scale);
-    let bullet2 = new Bullet('#FF0000', this.x + bulletOffset2.x, this.y + bulletOffset2.y, 5);
+    let bullet2 = new Bullet('#FF0000', this.x + bulletOffset2.x, this.y + bulletOffset2.y, this.powerups[POWERUP_BULLETSIZE] > 0 ? 15 : 5);
     bullet2.velocity = bulletOffset2.normalize().multiplyByScalar(800);
     currentLevel.addGameObject(bullet2);
     let bulletOffset3 = new Vector2(Math.sin(this.rotation + 0.2), -Math.cos(this.rotation + 0.2)).multiplyByScalar(this.scale);
-    let bullet3 = new Bullet('#FF0000', this.x + bulletOffset3.x, this.y + bulletOffset3.y, 5);
+    let bullet3 = new Bullet('#FF0000', this.x + bulletOffset3.x, this.y + bulletOffset3.y, this.powerups[POWERUP_BULLETSIZE] > 0 ? 15 : 5);
     bullet3.velocity = bulletOffset3.normalize().multiplyByScalar(800);
     currentLevel.addGameObject(bullet3);
+  }
+  if (this.missileTimer-- <= 0) {
+    this.fireMissile();
   }
   this.shotTimer = this.timeBetweenShots;
   if (this.powerups[POWERUP_SHOT_SPEED] > 0) {
@@ -44,6 +58,10 @@ Ship.prototype.fireBullet = function() {
 Ship.prototype.update = function(delta) {
   if (this.shotTimer > 0) {
     this.shotTimer -= delta;
+  }
+
+  if (this.missileTimer > 0) {
+    this.missileTimer -= delta;
   }
 
   for (let i = 0;i < this.powerups.length;i++) {

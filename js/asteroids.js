@@ -95,6 +95,7 @@ PowerUp.prototype = Object.create(GameObject.prototype);
 const POWERUP_TRISHOT = 0;
 const POWERUP_SHOT_SPEED = 1;
 const POWERUP_INVULNERABILITY = 2;
+const POWERUP_BULLETSIZE = 3;
 
 function PowerUp(type, x, y) {
   GameObject.call(this, this.getSpriteByType(type), x, y, 30);
@@ -117,6 +118,8 @@ PowerUp.prototype.getSpriteByType = function(type) {
     return 'shotspeed.png';
   case 2:
     return 'invulnerability.png';
+  case 3:
+    return 'shotsize.png';
   default:
     return '#00FF00';
   }
