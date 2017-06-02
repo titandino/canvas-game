@@ -1,3 +1,8 @@
+let Game = require('./engine/game');
+let GameObject = require('./engine/gameobject');
+let ParticleSystem = require('./engine/particlesystem');
+let Vector2 = require('./engine/vector2');
+
 Missile.prototype = Object.create(GameObject.prototype);
 
 function Missile(x, y, scale) {
@@ -10,11 +15,11 @@ function Missile(x, y, scale) {
 Missile.prototype.retarget = function() {
   let newTarget = null;
   let closest = 50000000;
-  for(let i = 0;i < currentLevel.asteroids.length;i++) {
-    if (currentLevel.asteroids[i]) {
-      let dist = ((this.x - currentLevel.asteroids[i].x) * (this.x - currentLevel.asteroids[i].x)) + ((this.y - currentLevel.asteroids[i].y) * (this.y - currentLevel.asteroids[i].y));
+  for(let i = 0;i < Game.currentLevel.asteroids.length;i++) {
+    if (Game.currentLevel.asteroids[i]) {
+      let dist = ((this.x - Game.currentLevel.asteroids[i].x) * (this.x - Game.currentLevel.asteroids[i].x)) + ((this.y - Game.currentLevel.asteroids[i].y) * (this.y - Game.currentLevel.asteroids[i].y));
       if (dist < closest) {
-        newTarget = currentLevel.asteroids[i];
+        newTarget = Game.currentLevel.asteroids[i];
         closest = dist;
       }
     }
@@ -23,13 +28,13 @@ Missile.prototype.retarget = function() {
 };
 
 Missile.prototype.update = function() {
-  for(let i = 0;i < currentLevel.asteroids.length;i++) {
-    if (currentLevel.asteroids[i]) {
-      if (this.rectCollide(currentLevel.asteroids[i])) {
-        currentLevel.asteroids[i].processHit(i);
-        currentLevel.removeGameObject(this);
-        currentLevel.removeGameObject(currentLevel.asteroids[i]);
-        currentLevel.asteroids[i] = null;
+  for(let i = 0;i < Game.currentLevel.asteroids.length;i++) {
+    if (Game.currentLevel.asteroids[i]) {
+      if (this.rectCollide(Game.currentLevel.asteroids[i])) {
+        Game.currentLevel.asteroids[i].processHit(i);
+        Game.currentLevel.removeGameObject(this);
+        Game.currentLevel.removeGameObject(Game.currentLevel.asteroids[i]);
+        Game.currentLevel.asteroids[i] = null;
         this.target = null;
       }
     }
@@ -59,6 +64,6 @@ Missile.prototype.update = function() {
   this.velocity = new Vector2(Math.sin(this.rotation), -Math.cos(this.rotation)).multiplyByScalar(200);
 
   let fireOffset = new Vector2(-Math.sin(this.rotation), Math.cos(this.rotation)).multiplyByScalar(this.scale / 1.9);
-  currentLevel.addParticleSystem(new ParticleSystem('fire.png', this.x + fireOffset.x, this.y + fireOffset.y, 0.4, 1, 5, 15, 40, 80,
+  Game.currentLevel.addParticleSystem(new ParticleSystem('fire.png', this.x + fireOffset.x, this.y + fireOffset.y, 0.4, 1, 5, 15, 40, 80,
   (fireOffset.x * 10) - 50, (fireOffset.x * 10) + 50, (fireOffset.y * 10) - 50, (fireOffset.y * 10) + 50));
 };
