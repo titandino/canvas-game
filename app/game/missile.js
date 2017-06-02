@@ -7,7 +7,7 @@ let Missile = module.exports = function(x, y, scale) {
   GameObject.call(this, 'missile.png', x, y, scale);
   this.deleteOnViewportExit = true;
   this.target = null;
-  this.retarget();
+  this.retargetTimer = 0;
 };
 
 Missile.prototype = Object.create(GameObject.prototype);
@@ -27,7 +27,7 @@ Missile.prototype.retarget = function() {
   this.target = newTarget;
 };
 
-Missile.prototype.update = function() {
+Missile.prototype.update = function(delta) {
   for(let i = 0;i < Game.currentLevel.asteroids.length;i++) {
     if (Game.currentLevel.asteroids[i]) {
       if (this.rectCollide(Game.currentLevel.asteroids[i])) {
@@ -40,7 +40,12 @@ Missile.prototype.update = function() {
     }
   }
 
-  this.retarget();
+  if (this.retargetTimer <= 0) {
+    this.retarget();
+    this.retargetTimer = 2;
+  } else {
+    this.retargetTimer -= delta;
+  }
 
   let cosine, sine, angle;
   let currentAim = new Vector2(Math.cos(this.rotation), Math.sin(this.rotation)).normalize();
