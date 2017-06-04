@@ -49,7 +49,7 @@ Missile.prototype.update = function(delta) {
 
   let cosine, sine, angle;
   let currentAim = new Vector2(Math.cos(this.rotation), Math.sin(this.rotation)).normalize();
-  let newAim = new Vector2(this.target.x, this.target.y).subtract(new Vector2(this.x, this.y)).normalize();
+  let newAim = !this.target ? new Vector2(0, 0) : new Vector2(this.target.x, this.target.y).subtract(new Vector2(this.x, this.y)).normalize();
 
   cosine = currentAim.x * newAim.x + currentAim.y * newAim.y;
   sine = currentAim.x * newAim.y - currentAim.y * newAim.x;
@@ -58,7 +58,7 @@ Missile.prototype.update = function(delta) {
   if (sine < 0) {
     angle *= -angle;
   }
-  angle += 3.1415;
+  angle += Math.PI;
 
   if (angle >= 0) {
     this.rotation += 0.05;
