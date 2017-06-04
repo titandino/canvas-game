@@ -22,7 +22,8 @@ LossMenu.prototype.render = function() {
 };
 
 LossMenu.prototype.onMouseDown = function() {
+  let StartMenu = require('./startmenu');
   if (this.backButton.pointCollide(Input.mousePos.x, Input.mousePos.y)) {
-    Game.switchLevel(new require('./startmenu')());
+    Game.switchLevel(new StartMenu());
   }
 };
